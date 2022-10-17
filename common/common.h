@@ -17,10 +17,11 @@ typedef enum {
     ERROR       =  0,
     OVERFLOW    = -2
 } status_t;
-typedef void* data_t;
-typedef void (*delete_data_t) (data_t data);
-
-#define INIT_VALUE_OF_DATA  NULL;
+typedef void* data_ptr_t;
+typedef struct node {
+    data_ptr_t data_ptr;
+    struct node *next;
+} node_t;
 
 #ifdef __cplusplus
 } /*extern "C"*/
