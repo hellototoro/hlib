@@ -28,7 +28,8 @@ typedef struct {
 } link_list;
 
 status_t list_init(link_list *list);
-status_t list_insert(link_list *list, list_node_t *node, data_t data);
+status_t list_insert_with_node(link_list *list, list_node_t *node, data_t data);
+status_t list_insert_with_index(link_list *list, int index, data_t data);
 status_t list_append(link_list *list, data_t data);
 list_node_t *list_get_node(link_list list, int index);
 data_t list_get_data(link_list list, int index);

@@ -12,12 +12,12 @@
 extern "C" {
 #endif
 
-#define OK           1
-#define ERROR        0
-#define OVERFLOW    -2
-
+typedef enum {
+    OK          =  1,
+    ERROR       =  0,
+    OVERFLOW    = -2
+} status_t;
 typedef void* data_t;
-typedef int status_t;
 typedef void (*delete_data_t) (data_t data);
 
 #define INIT_VALUE_OF_DATA  NULL;

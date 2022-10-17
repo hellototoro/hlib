@@ -24,7 +24,7 @@ status_t list_init(link_list *list)
         如果node为NULL，则在表尾插入新节点
  data : 新节点的数据域
 */
-status_t list_insert(link_list *list, list_node_t *node, data_t data)
+status_t list_insert_with_node(link_list *list, list_node_t *node, data_t data)
 {
     list_node_t* pre;
     list_node_t* p = list->head;
@@ -40,12 +40,26 @@ status_t list_insert(link_list *list, list_node_t *node, data_t data)
     p->next = new_node;
     ++list->size;
     return OK;
-    
+}
+
+status_t list_insert_with_index(link_list *list, int index, data_t data)
+{
+    list_node_t *p = list->head;
+    if (index > list_size(*list)+1) return ERROR;
+    int i;
+    for (i = 0; p != NULL && i < index - 1; ++i) p = p->next;
+    if (p == NULL || i > index -1) return ERROR;
+    list_node_t *new_node = (list_node_t *) malloc(sizeof (list_node_t));
+    new_node->data = data;
+    new_node->next = p->next;
+    p->next = new_node;
+    ++list->size;
+    return OK;
 }
 
 status_t list_append(link_list *list, data_t data)
 {
-    return list_insert(list, NULL, data);
+    return list_insert_with_node(list, NULL, data);
 }
 
 list_node_t *list_get_node(link_list list, int index)
