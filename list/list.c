@@ -5,45 +5,92 @@
  * @Description: None
  * @other: None
  */
+#include <stdlib.h>
 #include "list.h"
 
-/* list */
-status_t InitList(LinkList *L)
+/* 初始化列表 */
+status_t list_init(link_list *list)
 {
-    L->head = (node_t *) malloc(sizeof (node_t));
-    L->head->next = NULL;
-    L->len = 0;
+    list->head = (list_node_t *) malloc(sizeof (list_node_t));
+    if (list->head == NULL) return ERROR;
+    list->head->data = INIT_VALUE_OF_DATA;
+    list->head->next = NULL;
+    list->size = 0;
     return OK;
 }
 
-status_t ListAppend(LinkList *L, ElemType e)
+/*
+ node : 插入新节点的位置（位于node节点之后）；
+        如果node为NULL，则在表尾插入新节点
+ data : 新节点的数据域
+*/
+status_t list_insert(link_list *list, list_node_t *node, data_t data)
 {
-    Node *p = L->head;
-    while (p->next) {
+    list_node_t* pre;
+    list_node_t* p = list->head;
+    do {
+        pre = p;
+        p = p->next;
+    } while (p != NULL && p != node);
+    if (p != node) return ERROR;
+    list_node_t *new_node = (list_node_t *) malloc(sizeof (list_node_t));
+    new_node->data = data;
+    if (p == NULL) p = pre;
+    new_node->next = p->next;
+    p->next = new_node;
+    ++list->size;
+    return OK;
+    
+}
+
+status_t list_append(link_list *list, data_t data)
+{
+    return list_insert(list, NULL, data);
+}
+
+list_node_t *list_get_node(link_list list, int index)
+{
+    list_node_t *p = list.head->next;
+    if (index > list_size(list)) return NULL;
+    for (int i = 1; p != NULL && i < index; ++i) {
         p = p->next;
     }
-    node_t* s = (node_t *) malloc(sizeof (node_t));
-    s->data = e;
-    s->next = NULL;
-    p->next = s;
-    L->len++;
+    return p;
+}
+
+data_t list_get_data(link_list list, int index)
+{
+    list_node_t *p = list_get_node(list, index);
+    return p != NULL ? p->data : INIT_VALUE_OF_DATA;
+}
+
+status_t list_delete(link_list *list, list_node_t *node, delete_data_t delete_data)
+{
+    list_node_t *p = list->head;
+    while (p->next != NULL && p->next != node) p = p->next;
+    if (p->next == NULL) return ERROR;
+    list_node_t *q = p->next;
+    p->next = q->next;
+    delete_data(q->data);
+    free(q);
+    --list->size;
     return OK;
 }
 
-node_t* ListHead(LinkList *L)
+status_t list_destroy(link_list *list, delete_data_t delete_data)
 {
-    return L->head;
-}
-
-status_t DestroyList(LinkList *L)
-{
-    node_t *p = L->head;
-    while(p) {
-        node_t* q = p;
+    list_node_t *p = list->head;
+    do {
+        list_node_t* q = p;
         p = p->next;
+        delete_data(q->data);
         free(q);
-    }
-    free(L);
-    L = NULL;
+    } while(p);
+    free(list);
     return OK;
+}
+
+int list_size(link_list list)
+{
+    return list.size;
 }

@@ -18,6 +18,9 @@ extern "C" {
 
 typedef void* data_t;
 typedef int status_t;
+typedef void (*delete_data_t) (data_t data);
+
+#define INIT_VALUE_OF_DATA  NULL;
 
 #ifdef __cplusplus
 } /*extern "C"*/
