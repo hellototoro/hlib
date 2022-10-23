@@ -8,7 +8,6 @@ add_executable(
     hlib main.cpp
     example/list_example.cpp
     list/list.c
-    list/stack.c
 )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

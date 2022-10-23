@@ -1,13 +1,15 @@
 /*
  * @Author: totoro huangjian921@outlook.com
  * @Date: 2022-10-17 20:19:39
- * @FilePath: /hlib/example/example.h
+ * @FilePath: /hlibc/example/example.h
  * @Description: None
  * @other: None
  */
 #ifndef __EXAMPLE_H__
 #define __EXAMPLE_H__
 
-void list_example(void);
+void list_example1(void);
+void list_example2(void);
+void list_example3(void);
 
 #endif
