@@ -12,6 +12,13 @@
 extern "C" {
 #endif
 
+/*********************
+ *      INCLUDES
+ *********************/
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 typedef enum {
     OK          =  1,
     ERROR       =  0,
