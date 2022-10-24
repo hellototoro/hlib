@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(hlib VERSION 0.1.0)
+project(hlibc VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
 
 add_executable(
-    hlib main.cpp
+    hlibc main.cpp
     example/list_example.cpp
     list/list.c
 )
