@@ -10,7 +10,7 @@
 #include "list.h"
 
 /* 初始化列表 */
-status_t list_init(link_list *list)
+static status_t list_init(link_list *list)
 {
     list->head = (list_node_t *) malloc(sizeof (list_node_t));
     if (list->head == NULL) return ERROR;
@@ -55,7 +55,7 @@ status_t list_insert_with_node(link_list *list, list_node_t *node, data_ptr_t da
 status_t list_insert_with_index(link_list *list, uint32_t index, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     list_node_t *p = list->head;
-    if (index > list_get_size(*list)+1) return ERROR;
+    if (index > list_get_size(list)+1) return ERROR;
     uint32_t i;
     for (i = 0; p != NULL && i < index - 1; ++i) p = p->next;
     if (p == NULL || i > index -1) return ERROR;
@@ -74,9 +74,9 @@ status_t list_append(link_list *list, data_ptr_t data_ptr, uint32_t data_size, c
     return list_insert_with_node(list, NULL, data_ptr, data_size, copy_data);
 }
 
-list_node_t *list_get_node(link_list list, uint32_t index)
+list_node_t *list_get_node(link_list *list, uint32_t index)
 {
-    list_node_t *p = list.head->next;
+    list_node_t *p = list->head->next;
     if (index > list_get_size(list)) return NULL;
     for (uint32_t i = 1; p != NULL && i < index; ++i) {
         p = p->next;
@@ -84,7 +84,7 @@ list_node_t *list_get_node(link_list list, uint32_t index)
     return p;
 }
 
-data_ptr_t list_get_data(link_list list, uint32_t index)
+data_ptr_t list_get_data(link_list *list, uint32_t index)
 {
     list_node_t *p = list_get_node(list, index);
     return p != NULL ? p->data_ptr : NULL;
@@ -123,7 +123,7 @@ void list_destroy(link_list *list)
     free(list);
 }
 
-uint32_t list_get_size(link_list list)
+uint32_t list_get_size(link_list *list)
 {
-    return list.size;
+    return list->size;
 }
