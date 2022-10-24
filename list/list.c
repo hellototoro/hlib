@@ -103,17 +103,24 @@ status_t list_delete(link_list *list, list_node_t *node)
     return OK;
 }
 
-status_t list_destroy(link_list *list)
+void list_clear(link_list *list)
 {
-    list_node_t *p = list->head;
-    do {
+    list_node_t *p = list->head->next;
+    while (p != NULL) {
         list_node_t* q = p;
         p = p->next;
         free(q->data_ptr);
         free(q);
-    } while(p);
+    }
+    list->head->next = NULL;
+    list->size = 0;
+}
+
+void list_destroy(link_list *list)
+{
+    list_clear(list);
+    free(list->head);
     free(list);
-    return OK;
 }
 
 int list_get_size(link_list list)

@@ -21,9 +21,8 @@ struct test_str
     int b;
 };
 
-
-
-void list_example1(void) {
+void list_example1(void)
+{
     link_list list;
     list_init(&list);
     int a[] = {1,2,3,4,5,6};
@@ -58,24 +57,27 @@ void list_example2(void)
         x = static_cast<struct test_str *>(list_get_data(list, i+1));
         std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
     }
+    std::cout << std::endl;
 }
 
 void list_example3(void)
 {
-    link_list list;
-    list_init(&list);
+    //link_list list;
+    //list_init(&list);
+    link_list* list = list_create();
     
     struct test_str* t1 = new struct test_str;
     t1->a = 'a';
     t1->b = 10;
-    list_append(&list, &t1, sizeof(t1), nullptr);
+    list_append(list, &t1, sizeof(t1), nullptr);
     struct test_str* t2 = new struct test_str;
     t2->a = 'b';
     t2->b = 20;
-    list_append(&list, &t2, sizeof(t2), nullptr);
-    for (auto i = 0; i < list_get_size(list); ++i) {
-        struct test_str **y = static_cast<struct test_str **>(list_get_data(list, i+1));
+    list_append(list, &t2, sizeof(t2), nullptr);
+    for (auto i = 0; i < list_get_size(*list); ++i) {
+        struct test_str **y = static_cast<struct test_str **>(list_get_data(*list, i+1));
         struct test_str *x = *y;
         std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
     }
+    std::cout << std::endl;
 }
