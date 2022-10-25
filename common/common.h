@@ -19,6 +19,15 @@ extern "C" {
 #include <stddef.h>
 #include <stdbool.h>
 
+/*********************
+ *      MACROS
+ *********************/
+//#define DATA_CAST(data_type, x)     (*((data_type*)(x)))
+#define DATA_CAST(data_type)        *(data_type*)
+
+/**********************
+ *      TYPEDEFS
+ **********************/
 typedef enum {
     OK          =  1,
     ERROR       =  0,
