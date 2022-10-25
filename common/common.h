@@ -19,6 +19,15 @@ extern "C" {
 #include <stddef.h>
 #include <stdbool.h>
 
+/*********************
+ *      MACROS
+ *********************/
+//#define DATA_CAST(data_type, x)     (*((data_type*)(x)))
+#define DATA_CAST(data_type)        *(data_type*)
+
+/**********************
+ *      TYPEDEFS
+ **********************/
 typedef enum {
     OK          =  1,
     ERROR       =  0,
@@ -31,6 +40,11 @@ typedef struct node {
     data_ptr_t data_ptr;
     struct node *next;
 } node_t;
+
+typedef struct node_d {
+    data_ptr_t data_ptr;
+    struct node_d *front, *rear;
+} node_d_t;
 
 typedef void (*copy_data_f)(void*, const void*);
 

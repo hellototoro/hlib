@@ -23,7 +23,7 @@ struct test_str
 
 void list_example1(void)
 {
-    link_list* list = list_create();
+    link_list_t* list = list_create();
     int a[] = {1,2,3,4,5,6};
     for (int i = 0; i < 6; ++i) {
         list_append(list, &a[i], sizeof(a), copy_data);
@@ -33,9 +33,8 @@ void list_example1(void)
     int c = 12;
     list_insert_with_index(list, 1, &c, sizeof(c), copy_data);
     for (auto i = 0; i < list_get_size(list); ++i) {
-        int *x;
-        x = static_cast<int *>(list_get_data(list, i+1));
-        std::cout << *x << " ";
+        int x = DATA_CAST(int)list_get_data(list, i+1);
+        std::cout << x << " ";
     }
     std::cout << std::endl;
     list_destroy(list);
@@ -44,7 +43,7 @@ void list_example1(void)
 void list_example2(void)
 {
     struct test_str t1;
-    link_list* list = list_create();
+    link_list_t* list = list_create();
     t1.a = 'a';
     t1.b = 10;
     list_append(list, &t1, sizeof(t1), nullptr);
@@ -52,9 +51,8 @@ void list_example2(void)
     t1.b = 20;
     list_append(list, &t1, sizeof(t1), nullptr);
     for (auto i = 0; i < list_get_size(list); ++i) {
-        struct test_str *x;
-        x = static_cast<struct test_str *>(list_get_data(list, i+1));
-        std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
+        struct test_str x = DATA_CAST(struct test_str)list_get_data(list, i+1);
+        std::cout <<  "a = "<< x.a << ", b = " << x.b << " ";
     }
     std::cout << std::endl;
     list_destroy(list);
@@ -62,7 +60,7 @@ void list_example2(void)
 
 void list_example3(void)
 {
-    link_list* list = list_create();
+    link_list_t* list = list_create();
     
     struct test_str* t1 = new struct test_str;
     t1->a = 'a';
@@ -73,8 +71,7 @@ void list_example3(void)
     t2->b = 20;
     list_append(list, &t2, sizeof(t2), nullptr);
     for (auto i = 0; i < list_get_size(list); ++i) {
-        struct test_str **y = static_cast<struct test_str **>(list_get_data(list, i+1));
-        struct test_str *x = *y;
+        struct test_str *x = DATA_CAST(struct test_str *)list_get_data(list, i+1);
         std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
     }
     std::cout << std::endl;

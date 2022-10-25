@@ -10,7 +10,7 @@
 #include "list.h"
 
 /* 初始化列表 */
-static status_t list_init(link_list *list)
+static status_t list_init(link_list_t *list)
 {
     list->head = (list_node_t *) malloc(sizeof (list_node_t));
     if (list->head == NULL) return ERROR;
@@ -20,9 +20,9 @@ static status_t list_init(link_list *list)
     return OK;
 }
 
-link_list* list_create(void)
+link_list_t* list_create(void)
 {
-    link_list* list = (link_list *) malloc(sizeof (link_list));
+    link_list_t* list = (link_list_t *) malloc(sizeof (link_list_t));
     if (list != NULL) list_init(list);
     return list;
 }
@@ -32,7 +32,7 @@ link_list* list_create(void)
         如果node为NULL，则在表尾插入新节点
  data : 新节点的数据域
 */
-status_t list_insert_with_node(link_list *list, list_node_t *node, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
+status_t list_insert_with_node(link_list_t *list, list_node_t *node, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     list_node_t* pre;
     list_node_t* p = list->head;
@@ -52,7 +52,7 @@ status_t list_insert_with_node(link_list *list, list_node_t *node, data_ptr_t da
     return OK;
 }
 
-status_t list_insert_with_index(link_list *list, uint32_t index, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
+status_t list_insert_with_index(link_list_t *list, uint32_t index, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     list_node_t *p = list->head;
     if (index > list_get_size(list)+1) return ERROR;
@@ -69,12 +69,12 @@ status_t list_insert_with_index(link_list *list, uint32_t index, data_ptr_t data
     return OK;
 }
 
-status_t list_append(link_list *list, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
+status_t list_append(link_list_t *list, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     return list_insert_with_node(list, NULL, data_ptr, data_size, copy_data);
 }
 
-list_node_t *list_get_node(link_list *list, uint32_t index)
+list_node_t *list_get_node(link_list_t *list, uint32_t index)
 {
     list_node_t *p = list->head->next;
     if (index > list_get_size(list)) return NULL;
@@ -84,13 +84,13 @@ list_node_t *list_get_node(link_list *list, uint32_t index)
     return p;
 }
 
-data_ptr_t list_get_data(link_list *list, uint32_t index)
+data_ptr_t list_get_data(link_list_t *list, uint32_t index)
 {
     list_node_t *p = list_get_node(list, index);
     return p != NULL ? p->data_ptr : NULL;
 }
 
-status_t list_delete(link_list *list, list_node_t *node)
+status_t list_delete(link_list_t *list, list_node_t *node)
 {
     list_node_t *p = list->head;
     while (p->next != NULL && p->next != node) p = p->next;
@@ -103,7 +103,7 @@ status_t list_delete(link_list *list, list_node_t *node)
     return OK;
 }
 
-void list_clear(link_list *list)
+void list_clear(link_list_t *list)
 {
     list_node_t *p = list->head->next;
     while (p != NULL) {
@@ -116,14 +116,14 @@ void list_clear(link_list *list)
     list->size = 0;
 }
 
-void list_destroy(link_list *list)
+void list_destroy(link_list_t *list)
 {
     list_clear(list);
     free(list->head);
     free(list);
 }
 
-uint32_t list_get_size(link_list *list)
+uint32_t list_get_size(link_list_t *list)
 {
     return list->size;
 }
