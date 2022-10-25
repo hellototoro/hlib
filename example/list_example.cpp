@@ -23,7 +23,7 @@ struct test_str
 
 void list_example1(void)
 {
-    link_list* list = list_create();
+    link_list_t* list = list_create();
     int a[] = {1,2,3,4,5,6};
     for (int i = 0; i < 6; ++i) {
         list_append(list, &a[i], sizeof(a), copy_data);
@@ -43,7 +43,7 @@ void list_example1(void)
 void list_example2(void)
 {
     struct test_str t1;
-    link_list* list = list_create();
+    link_list_t* list = list_create();
     t1.a = 'a';
     t1.b = 10;
     list_append(list, &t1, sizeof(t1), nullptr);
@@ -60,7 +60,7 @@ void list_example2(void)
 
 void list_example3(void)
 {
-    link_list* list = list_create();
+    link_list_t* list = list_create();
     
     struct test_str* t1 = new struct test_str;
     t1->a = 'a';

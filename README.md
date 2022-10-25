@@ -7,7 +7,7 @@
 ### 使用方法：
 1、定义为指针类型（存储在堆上），直接调用list_create即可，但是用完之后需要调用list_destroy进行删除：
 ```
-link_list* list = list_create();
+link_list_t* list = list_create();
 /* run */
 list_destroy(list);
 list = NULL;
