@@ -14,6 +14,9 @@ int main(int, char**) {
     //list_example2();
     //list_example3();
 
-    std::cout << "---------stack data struct test---------" << std::endl;
-    stack_example1();
+    //std::cout << "---------stack data struct test---------" << std::endl;
+    //stack_example1();
+
+    std::cout << "---------queue data struct test---------" << std::endl;
+    queue_example1();
 }
