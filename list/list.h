@@ -5,8 +5,8 @@
  * @Description: None
  * @other: None
  */
-#ifndef __HLIB_LIST_H__
-#define __HLIB_LIST_H__
+#ifndef __HLIBC_LIST_H__
+#define __HLIBC_LIST_H__
 
 #include "../common/common.h"
 
