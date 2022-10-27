@@ -41,10 +41,10 @@ typedef struct node {
     struct node *next;
 } node_t;
 
-typedef struct node_d {
+typedef struct dnode {
     data_ptr_t data_ptr;
-    struct node_d *front, *rear;
-} node_d_t;
+    struct dnode *pre, *next;
+} dnode_t;
 
 typedef void (*copy_data_f)(void*, const void*);
 

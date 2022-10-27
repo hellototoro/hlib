@@ -127,3 +127,137 @@ uint32_t list_get_size(link_list_t *list)
 {
     return list->size;
 }
+
+
+/* ---------------------------------------------------------------------------- */
+static list_dnode_t *create_new_node(const data_ptr_t data_ptr, uint32_t data_size);
+static status_t insert(list_dnode_t* node, const data_ptr_t data_ptr, uint32_t data_size);
+static void push_back(list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
+static void push_front(list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
+static data_ptr_t back(list_t *list);
+static data_ptr_t front(list_t *list);
+static uint32_t len(list_t *list);
+static list_iterator_t begin(struct list_t *list);
+static list_iterator_t end(struct list_t *list);
+static void list_iterator_init(list_iterator_t *iterator, list_dnode_t* head, list_dnode_t* begin);
+
+status_t dlist_init(list_t *list)
+{
+    list->head = (list_dnode_t *) malloc(sizeof (list_dnode_t));
+    if (list->head == NULL) return ERROR;
+    list->head->data_ptr = NULL;
+    list->head->pre = list->head;
+    list->head->next = list->head;
+    list->size = 0;
+
+    list->back = back;
+    list->front = front;
+    list->insert = insert;
+    list->push_back = push_back;
+    list->push_front = push_front;
+    list->pop_back = NULL;
+    list->pop_front = NULL;
+    list->len = len;
+    list->begin = begin;
+    list->end = end;
+    return OK;
+}
+
+static list_dnode_t *create_new_node(const data_ptr_t data_ptr, uint32_t data_size)
+{
+    list_dnode_t *node = (list_dnode_t *) malloc(sizeof (list_dnode_t));
+    node->data_ptr = (data_ptr_t) malloc(data_size);
+    memcpy(node->data_ptr, data_ptr, data_size);
+    return node;
+}
+
+static status_t insert(list_dnode_t* where, const data_ptr_t data_ptr, uint32_t data_size)
+{
+    if(where == NULL) return ERROR;
+    list_dnode_t *node = create_new_node(data_ptr, data_size);
+    node->next = where->next;
+    where->next->pre = node;
+    node->pre = where;
+    where->next = node;
+    return OK;
+}
+
+static void push_back(list_t *list, const data_ptr_t data_ptr, uint32_t data_size)
+{
+    if (insert(list->head->pre, data_ptr, data_size) == OK)
+        ++list->size;
+}
+
+static void push_front(list_t *list, const data_ptr_t data_ptr, uint32_t data_size)
+{
+    if (insert(list->head, data_ptr, data_size) == OK)
+        ++list->size;
+}
+
+static data_ptr_t back(list_t *list)
+{
+    return list->head->pre->data_ptr;
+}
+
+static data_ptr_t front(list_t *list)
+{
+    return list->head->next->data_ptr;
+}
+
+static uint32_t len(list_t *list)
+{
+    return list->size;
+}
+
+static list_iterator_t begin(struct list_t *list)
+{
+    list_iterator_t it;
+    list_iterator_init(&it, list->head, list->head->next);
+    return it;
+}
+
+static list_iterator_t end(struct list_t *list)
+{
+    list_iterator_t it;
+    list_iterator_init(&it, list->head, list->head->pre);
+    return it;
+}
+
+static data_ptr_t data(list_iterator_t *iterator);
+static void forward(list_iterator_t *iterator);
+static void backward(list_iterator_t *iterator);
+
+static void list_iterator_init(list_iterator_t *iterator, list_dnode_t* head, list_dnode_t* begin)
+{
+    iterator->begin = begin;
+    iterator->end = NULL;
+    iterator->head = head;
+    iterator->data = data;
+    iterator->forward = forward;
+    iterator->backward = backward;
+}
+
+static data_ptr_t data(list_iterator_t *iterator)
+{
+    return iterator->begin != NULL ? iterator->begin->data_ptr : NULL;
+}
+
+static void forward(list_iterator_t *iterator)
+{
+    if (iterator->begin == NULL) return;
+    iterator->begin = iterator->begin->next;
+    if (iterator->begin == iterator->head) {
+        iterator->end = iterator->begin->next;
+        iterator->begin = iterator->end;
+    }
+}
+
+static void backward(list_iterator_t *iterator)
+{
+    if (iterator->begin == NULL) return;
+    iterator->begin = iterator->begin->pre;
+    if (iterator->begin == iterator->head) {
+        iterator->end = iterator->begin->pre;
+        iterator->begin = iterator->end;
+    }
+}

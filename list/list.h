@@ -33,6 +33,33 @@ extern uint32_t list_get_size(link_list_t *list);
 extern void list_clear(link_list_t *list);
 extern void list_destroy(link_list_t *list);
 
+typedef dnode_t list_dnode_t;
+
+typedef struct list_iterator_t{
+    list_dnode_t *head;
+    list_dnode_t *begin, *end;
+    data_ptr_t (*data)(struct list_iterator_t *iterator);
+    void (*forward)(struct list_iterator_t *iterator);
+    void (*backward)(struct list_iterator_t *iterator);
+} list_iterator_t;
+
+typedef struct list_t{
+    uint32_t size;
+    list_dnode_t* head;
+    data_ptr_t (*back)(struct list_t *list);
+    data_ptr_t (*front)(struct list_t *list);
+    status_t (*insert)(list_dnode_t* where, const data_ptr_t data_ptr, uint32_t data_size);
+    void (*push_back)(struct list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
+    void (*push_front)(struct list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
+    void (*pop_back)(struct list_t *list);
+    void (*pop_front)(struct list_t *list);
+    uint32_t (*len)(struct list_t *list);
+    list_iterator_t (*begin)(struct list_t *list);
+    list_iterator_t (*end)(struct list_t *list);
+} list_t;
+
+extern status_t dlist_init(list_t *list);
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

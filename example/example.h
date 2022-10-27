@@ -11,6 +11,7 @@
 void list_example1(void);
 void list_example2(void);
 void list_example3(void);
+void list_example4(void);
 
 void stack_example1(void);
 

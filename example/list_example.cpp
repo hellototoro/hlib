@@ -77,3 +77,41 @@ void list_example3(void)
     std::cout << std::endl;
     list_destroy(list);
 }
+
+void list_example4(void)
+{
+    list_t list;
+    dlist_init(&list);
+    
+    int a[] = {8,2,7,4,1,6};
+    for (int i = 0; i < 6; ++i) {
+        list.push_back(&list, &a[i], sizeof(a[i]));
+    }
+
+    for (list_iterator_t it = list.end(&list); it.begin != it.end; it.backward(&it)) {
+        int x = DATA_CAST(int)it.data(&it);
+        std::cout << x << " ";
+    }
+    std::cout << std::endl;
+}
+
+void list_example5(void)
+{
+    list_t list;
+    dlist_init(&list);
+    
+    struct test_str* t1 = new struct test_str;
+    t1->a = 'a';
+    t1->b = 10;
+    list.push_back(&list, &t1, sizeof(t1));
+    struct test_str* t2 = new struct test_str;
+    t2->a = 'b';
+    t2->b = 20;
+    list.push_back(&list, &t2, sizeof(t2));
+    
+    for (list_iterator_t it = list.begin(&list); it.begin != it.end; it.forward(&it)) {
+        struct test_str *x = DATA_CAST(struct test_str *)it.data(&it);
+        std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
+    }
+    std::cout << std::endl;
+}
