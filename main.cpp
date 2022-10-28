@@ -10,10 +10,9 @@
 
 int main(int, char**) {
     std::cout << "---------list data struct test---------" << std::endl;
-    //list_example1();
-    //list_example2();
-    //list_example3();
-    list_example4();
+    list_example1();
+    list_example2();
+    list_example3();
 
     //std::cout << "---------stack data struct test---------" << std::endl;
     //stack_example1();

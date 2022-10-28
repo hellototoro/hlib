@@ -45,20 +45,19 @@ typedef struct list_iterator_t{
 
 typedef struct list_t{
     uint32_t size;
-    list_dnode_t* head;
+    list_dnode_t head;
     data_ptr_t (*back)(struct list_t *list);
     data_ptr_t (*front)(struct list_t *list);
-    status_t (*insert)(list_dnode_t* where, const data_ptr_t data_ptr, uint32_t data_size);
+    status_t (*insert)(struct list_t *list, list_iterator_t* where, const data_ptr_t data_ptr, uint32_t data_size);
     void (*push_back)(struct list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
     void (*push_front)(struct list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
     void (*pop_back)(struct list_t *list);
     void (*pop_front)(struct list_t *list);
-    uint32_t (*len)(struct list_t *list);
     list_iterator_t (*begin)(struct list_t *list);
     list_iterator_t (*end)(struct list_t *list);
 } list_t;
 
-extern status_t dlist_init(list_t *list);
+extern status_t list_init(list_t *list);
 
 #ifdef __cplusplus
 } /*extern "C"*/
