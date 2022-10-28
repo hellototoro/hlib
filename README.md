@@ -12,6 +12,10 @@
 
 # **list**
 ### 双向序列容器，用于将它们的元素保持为线性排列，并允许在序列的任何位置插入和删除。
+<p align="center">
+  <img src="https://github.com/hellototoro/hlibc/blob/main/resource/struct.jpg">
+</p>
+
 ### API (模仿c++的list容器)
 定义并初始化
 ```
@@ -37,7 +41,11 @@ for (list_iterator_t it = list.begin(&list); it.begin != it.end; it.forward(&it)
 it.forward_to(&it, 2);
 std::cout << "it = " << DATA_CAST(int)it.data(&it) << std::endl;
 ```
-
+删除元素
+```
+list.pop_back(&list);
+list.pop_front(&list);
+```
 ---
 
 **1、为什么要写这个库？**<br>
