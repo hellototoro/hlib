@@ -22,7 +22,6 @@ extern "C" {
 /*********************
  *      MACROS
  *********************/
-//#define DATA_CAST(data_type, x)     (*((data_type*)(x)))
 #define DATA_CAST(data_type)        *(data_type*)
 
 /**********************

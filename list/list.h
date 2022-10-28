@@ -14,25 +14,6 @@
 extern "C" {
 #endif
 
-typedef node_t list_node_t;
-
-/* 带头节点的列表 */
-typedef struct {
-    uint32_t size;
-    list_node_t* head;
-} link_list_t;
-
-extern link_list_t* list_create(void);
-extern status_t list_insert_with_node(link_list_t *list, list_node_t *node, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data);
-extern status_t list_insert_with_index(link_list_t *list, uint32_t index, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data);
-extern status_t list_append(link_list_t *list, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data);
-extern list_node_t *list_get_node(link_list_t *list, uint32_t index);
-extern data_ptr_t list_get_data(link_list_t *list, uint32_t index);
-extern status_t list_delete(link_list_t *list, list_node_t *node);
-extern uint32_t list_get_size(link_list_t *list);
-extern void list_clear(link_list_t *list);
-extern void list_destroy(link_list_t *list);
-
 typedef dnode_t list_dnode_t;
 
 typedef struct list_iterator_t{
@@ -41,20 +22,23 @@ typedef struct list_iterator_t{
     data_ptr_t (*data)(struct list_iterator_t *iterator);
     void (*forward)(struct list_iterator_t *iterator);
     void (*backward)(struct list_iterator_t *iterator);
+    void (*forward_to)(struct list_iterator_t *iterator, int step);
+    void (*backward_to)(struct list_iterator_t *iterator, int step);
 } list_iterator_t;
 
 typedef struct list_t{
-    uint32_t size;
-    list_dnode_t head;
+    list_dnode_t head; /* 确保head的首地址与list的首地址重合 */
     data_ptr_t (*back)(struct list_t *list);
     data_ptr_t (*front)(struct list_t *list);
-    status_t (*insert)(struct list_t *list, list_iterator_t* where, const data_ptr_t data_ptr, uint32_t data_size);
+    bool (*empty)(struct list_t *list);
+    void (*insert)(list_iterator_t* where, const data_ptr_t data_ptr, uint32_t data_size);
     void (*push_back)(struct list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
     void (*push_front)(struct list_t *list, const data_ptr_t data_ptr, uint32_t data_size);
     void (*pop_back)(struct list_t *list);
     void (*pop_front)(struct list_t *list);
     list_iterator_t (*begin)(struct list_t *list);
     list_iterator_t (*end)(struct list_t *list);
+    uint32_t size;
 } list_t;
 
 extern status_t list_init(list_t *list);

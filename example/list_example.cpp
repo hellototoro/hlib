@@ -25,12 +25,23 @@ void list_example1(void)
     list_t list;
     list_init(&list);
     
-    int a[] = {8,2,7,4,1,6};
+    int a[] = {1,2,3,4,5,6};
     for (int i = 0; i < 6; ++i) {
         list.push_back(&list, &a[i], sizeof(a[i]));
     }
+    list_iterator_t it = list.begin(&list);
+    std::cout << "it = " << DATA_CAST(int)it.data(&it) << std::endl;
+    int b = 7;
+    it.forward(&it);
+    list.insert(&it, &b, sizeof(b));
 
-    for (list_iterator_t it = list.end(&list); it.begin != it.end; it.backward(&it)) {
+    b = 8;
+    it.forward_to(&it, 2);
+    list.insert(&it, &b, sizeof(b));
+    list.pop_back(&list);
+    list.pop_front(&list);
+
+    for (it = list.begin(&list); it.begin != it.end; it.forward(&it)) {
         int x = DATA_CAST(int)it.data(&it);
         std::cout << x << " ";
     }

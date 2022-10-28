@@ -1,18 +1,42 @@
+<!--
+ * @Author: totoro huangjian921@outlook.com
+ * @Date: 2022-10-26 00:17:22
+ * @FilePath: /hlibc/README.md
+ * @Description: None
+ * @other: None
+-->
 # ***hlibc***
-## 基于C语言的通用型数据结构与容器
+## 基于C语言的通用型数据结构与容器库
 
 ---
 
-## **list**
-### 使用方法：
-1、定义为指针类型（存储在堆上），直接调用list_create即可，但是用完之后需要调用list_destroy进行删除：
+# **list**
+### 双向序列容器，用于将它们的元素保持为线性排列，并允许在序列的任何位置插入和删除。
+### API (模仿c++的list容器)
+定义并初始化
 ```
-link_list_t* list = list_create();
-/* run */
-list_destroy(list);
-list = NULL;
+list_t list;
+list_init(&list);
 ```
-**注意：不能直接使用link_list定义一个全局或局部变量来使用，必须通过list_create函数创建**
+插入元素
+```
+int a = 7;
+list.push_back(&list, &a, sizeof(a));
+/* ... */
+list.push_front(&list, &a, sizeof(a));
+/* ... */
+list_iterator_t it = list.begin(&list);
+list.insert(&it, &a, sizeof(a));
+```
+迭代器
+```
+for (list_iterator_t it = list.begin(&list); it.begin != it.end; it.forward(&it)) {
+    std::cout << DATA_CAST(int)it.data(&it) << " ";
+}
+/* ... */
+it.forward_to(&it, 2);
+std::cout << "it = " << DATA_CAST(int)it.data(&it) << std::endl;
+```
 
 ---
 

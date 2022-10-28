@@ -8,15 +8,17 @@
 #include <iostream>
 #include "example/example.h"
 
+using namespace std;
+
 int main(int, char**) {
-    std::cout << "---------list data struct test---------" << std::endl;
+    cout << "---------list data struct test---------" << endl;
     list_example1();
     list_example2();
     list_example3();
 
-    //std::cout << "---------stack data struct test---------" << std::endl;
+    //cout << "---------stack data struct test---------" << endl;
     //stack_example1();
 
-    //std::cout << "---------queue data struct test---------" << std::endl;
+    //cout << "---------queue data struct test---------" << endl;
     //queue_example1();
 }
