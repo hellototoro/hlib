@@ -7,7 +7,7 @@
 -->
 # ***hlibc***
 ## 基于C语言的通用型数据结构与容器库
-博客地址：[https://www.cnblogs.com/jank/p/16838272.html](https://www.cnblogs.com/jank/p/16838272.html)
+博客地址：[https://www.cnblogs.com/hellototoro/p/16838272.html](https://www.cnblogs.com/hellototoro/p/16838272.html)
 ---
 
 # **list**

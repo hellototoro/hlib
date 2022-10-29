@@ -17,31 +17,40 @@ void copy_data(void* dest, const void* src)
 struct test_str
 {
     char a;
-    int b;
+    double b;
 };
 
 void list_example1(void)
 {
     list_t list;
-    list_init(&list);
+    list_init(&list, sizeof(int));
     
     int a[] = {1,2,3,4,5,6};
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < sizeof(a)/sizeof(int); ++i) {
         list.push_back(&list, &a[i], sizeof(a[i]));
     }
-    list_iterator_t it = list.begin(&list);
+    //list_iterator_t it = list.begin(&list);
+    list_iterator_t it = list.end(&list);
+    //it.forward(&it);
+    //it.backward(&it);
+    //it.forward(&it);
+    //it.forward(&it);
+    int b = 10;
+    list.insert(&it, &b, sizeof(b));
     std::cout << "it = " << DATA_CAST(int)it.data(&it) << std::endl;
-    int b = 7;
-    it.forward(&it);
-    list.insert(&it, &b, sizeof(b));
 
-    b = 8;
-    it.forward_to(&it, 2);
-    list.insert(&it, &b, sizeof(b));
-    list.pop_back(&list);
-    list.pop_front(&list);
+    /*b = 8;
+    it.forward_to(&it, 3);
+    list.insert(&it, &b, sizeof(b));*/
+    //list.pop_back(&list);
+    //list.pop_front(&list);
 
-    for (it = list.begin(&list); it.begin != it.end; it.forward(&it)) {
+    for (; !it.is_end(&it); it.forward(&it)) {
+        int x = DATA_CAST(int)it.data(&it);
+        std::cout << x << " ";
+    }
+    std::cout << std::endl;
+    for (list_iterator_t it = list.begin(&list); !it.is_end(&it); it.forward(&it)) {
         int x = DATA_CAST(int)it.data(&it);
         std::cout << x << " ";
     }
@@ -52,14 +61,16 @@ void list_example2(void)
 {
     struct test_str t1;
     list_t list;
-    list_init(&list);
+    list_init(&list, sizeof(struct test_str));
     t1.a = 'a';
     t1.b = 10;
-    list.push_back(&list, &t1, sizeof(t1));
+    //list.push_back(&list, &t1, sizeof(t1));
+    list_iterator_t it = list.end(&list);
+    std::cout <<  "a = "<< (DATA_CAST(struct test_str)it.data(&it)).a << ", b = " << (DATA_CAST(struct test_str)it.data(&it)).b << " ";
     t1.a = 'b';
     t1.b = 20;
-    list.push_back(&list, &t1, sizeof(t1));
-    for (list_iterator_t it = list.end(&list); it.begin != it.end; it.backward(&it)) {
+    //list.push_back(&list, &t1, sizeof(t1));
+    for (list_iterator_t it = list.end(&list); !it.is_end(&it); it.backward(&it)) {
         struct test_str x = DATA_CAST(struct test_str)it.data(&it);
         std::cout <<  "a = "<< x.a << ", b = " << x.b << " ";
     }
@@ -69,7 +80,7 @@ void list_example2(void)
 void list_example3(void)
 {
     list_t list;
-    list_init(&list);
+    list_init(&list, sizeof(struct test_str));
     
     struct test_str* t1 = new struct test_str;
     t1->a = 'a';
@@ -80,7 +91,7 @@ void list_example3(void)
     t2->b = 20;
     list.push_back(&list, &t2, sizeof(t2));
     
-    for (list_iterator_t it = list.begin(&list); it.begin != it.end; it.forward(&it)) {
+    for (list_iterator_t it = list.begin(&list); !it.is_end(&it); it.forward(&it)) {
         struct test_str *x = DATA_CAST(struct test_str *)it.data(&it);
         std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
     }
