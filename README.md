@@ -12,8 +12,13 @@
 
 # **list**
 ### 双向序列容器，用于将它们的元素保持为线性排列，并允许在序列的任何位置插入和删除。
+
 <p align="center">
   <img src="https://github.com/hellototoro/hlibc/blob/main/resource/struct.jpg">
+</p>
+
+<p align="center">
+  <img src="https://github.com/hellototoro/hlibc/blob/main/resource/create_node.jpg">
 </p>
 
 ### API (模仿c++的list容器)

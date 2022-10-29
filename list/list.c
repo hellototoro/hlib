@@ -34,7 +34,7 @@ static void backward_to(list_iterator_t *iterator, int step);
 status_t list_init(list_t *list)
 {
     list->head.data_ptr = NULL;
-    list->head.pre = &list->head;
+    list->head.prev = &list->head;
     list->head.next = &list->head;
     list->size = 0;
 
@@ -62,7 +62,7 @@ static list_dnode_t *create_dnode(const data_ptr_t data_ptr, uint32_t data_size)
 
 static data_ptr_t back(list_t *list)
 {
-    return list->head.pre->data_ptr;
+    return list->head.prev->data_ptr;
 }
 
 static data_ptr_t front(list_t *list)
@@ -72,7 +72,7 @@ static data_ptr_t front(list_t *list)
 
 static bool empty(list_t *list)
 {
-    return list->head.pre == list->head.next ? true : false;
+    return list->head.prev == list->head.next ? true : false;
 }
 
 static status_t _insert(list_t *list, list_dnode_t *where, const data_ptr_t data_ptr, uint32_t data_size)
@@ -80,8 +80,8 @@ static status_t _insert(list_t *list, list_dnode_t *where, const data_ptr_t data
     list_dnode_t *node = create_dnode(data_ptr, data_size);
     if (node == NULL) return ERROR;
     node->next = where->next;
-    where->next->pre = node;
-    node->pre = where;
+    where->next->prev = node;
+    node->prev = where;
     where->next = node;
     ++list->size;
     return OK;
@@ -90,8 +90,8 @@ static status_t _insert(list_t *list, list_dnode_t *where, const data_ptr_t data
 static void _delete(list_t *list, list_dnode_t *where)
 {
     if (empty(list)) return;
-    where->pre->next = where->next;
-    where->next->pre = where->pre;
+    where->prev->next = where->next;
+    where->next->prev = where->prev;
     free(where->data_ptr);
     free(where);
     --list->size;
@@ -100,12 +100,12 @@ static void _delete(list_t *list, list_dnode_t *where)
 static void insert(list_iterator_t* where, const data_ptr_t data_ptr, uint32_t data_size)
 {
     list_t *list = (list_t *)where->head;
-    _insert(list, where->begin->pre, data_ptr, data_size);
+    _insert(list, where->begin->prev, data_ptr, data_size);
 }
 
 static void push_back(list_t *list, const data_ptr_t data_ptr, uint32_t data_size)
 {
-    _insert(list, list->head.pre, data_ptr, data_size);
+    _insert(list, list->head.prev, data_ptr, data_size);
 }
 
 static void push_front(list_t *list, const data_ptr_t data_ptr, uint32_t data_size)
@@ -115,7 +115,7 @@ static void push_front(list_t *list, const data_ptr_t data_ptr, uint32_t data_si
 
 static void pop_back(list_t *list)
 {
-    _delete(list, list->head.pre);
+    _delete(list, list->head.prev);
 }
 
 static void pop_front(list_t *list)
@@ -133,7 +133,7 @@ static list_iterator_t begin(struct list_t *list)
 static list_iterator_t end(struct list_t *list)
 {
     list_iterator_t it;
-    list_iterator_init(&it, &list->head, list->head.pre);
+    list_iterator_init(&it, &list->head, list->head.prev);
     return it;
 }
 
@@ -173,9 +173,9 @@ static void forward_to(list_iterator_t *iterator, int step)
 
 static void backward(list_iterator_t *iterator)
 {
-    iterator->begin = iterator->begin->pre;
+    iterator->begin = iterator->begin->prev;
     if (iterator->begin == iterator->head) {
-        iterator->end = iterator->begin->pre;
+        iterator->end = iterator->begin->prev;
         iterator->begin = iterator->end;
     }
 }

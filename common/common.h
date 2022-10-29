@@ -42,7 +42,7 @@ typedef struct node {
 
 typedef struct dnode {
     data_ptr_t data_ptr;
-    struct dnode *pre, *next;
+    struct dnode *prev, *next;
 } dnode_t;
 
 typedef void (*copy_data_f)(void*, const void*);
