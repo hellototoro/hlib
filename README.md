@@ -7,19 +7,14 @@
 -->
 # ***hlibc***
 ## 基于C语言的通用型数据结构与容器库
-
+博客地址：[https://www.cnblogs.com/jank/p/16838272.html](https://www.cnblogs.com/jank/p/16838272.html)
 ---
 
 # **list**
 ### 双向序列容器，用于将它们的元素保持为线性排列，并允许在序列的任何位置插入和删除。
 
-<p align="center">
-  <img src="https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029104649282-1323734148.jpg">
-</p>
-
-<p align="center">
-  <img src="https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029104719118-1928010069.jpg">
-</p>
+![struct](https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029111424718-370591967.jpg)
+![create_node](https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029111452581-1489188669.jpg)
 
 ### API (模仿c++的list容器)
 定义并初始化
