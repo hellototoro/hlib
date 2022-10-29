@@ -14,11 +14,11 @@
 ### 双向序列容器，用于将它们的元素保持为线性排列，并允许在序列的任何位置插入和删除。
 
 <p align="center">
-  <img src="https://github.com/hellototoro/hlibc/blob/main/resource/struct.jpg">
+  <img src="https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029104649282-1323734148.jpg">
 </p>
 
 <p align="center">
-  <img src="https://github.com/hellototoro/hlibc/blob/main/resource/create_node.jpg">
+  <img src="https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029104719118-1928010069.jpg">
 </p>
 
 ### API (模仿c++的list容器)
