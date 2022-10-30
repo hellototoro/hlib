@@ -16,35 +16,66 @@
 ![struct](https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029111424718-370591967.jpg)
 ![create_node](https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029111452581-1489188669.jpg)
 
-### API (模仿c++的list容器)
-定义并初始化
+### API 
+创建和删除一个容器
 ```
-list_t list;
-list_init(&list);
-```
-插入元素
-```
-int a = 7;
-list.push_back(&list, &a, sizeof(a));
-/* ... */
-list.push_front(&list, &a, sizeof(a));
-/* ... */
-list_iterator_t it = list.begin(&list);
-list.insert(&it, &a, sizeof(a));
+/**
+ * 创建一个容器
+ * @param type_size 装入容器的数据类型的大小
+ * @return 返回新创建的容器
+ */
+list_ptr_t list_create(uint32_t type_size);
+
+/**
+ * 删除给定的容器
+ * @param list 一个由 list_create 返回的容器
+ */
+extern void list_destroy(list_ptr_t list);
+
+/* 装入容器的数据类型为 int */
+list_ptr_t list = list_create(sizeof(int));
+list_destroy(list);
 ```
 迭代器
 ```
-for (list_iterator_t it = list.begin(&list); it.begin != it.end; it.forward(&it)) {
-    std::cout << DATA_CAST(int)it.data(&it) << " ";
-}
+list_iterator_ptr_t it = list_begin(list);
+list_iter_forward(&it);
+std::cout << "it = " << DATA_CAST(int)list_iter_data(it) << std::endl;
 /* ... */
-it.forward_to(&it, 2);
-std::cout << "it = " << DATA_CAST(int)it.data(&it) << std::endl;
+for (list_iterator_ptr_t it = list_begin(list); it != list_end(list); list_iter_forward(&it)) {
+    std::cout << DATA_CAST(int)list_iter_data(it) << " ";
+}
+```
+插入节点，两种方式插入一个节点：1、在头部或者尾部插入；2、使用迭代器插入
+```
+struct test_str
+{
+    char a;
+    int b;
+};
+/* ... */
+list_ptr_t list1 = list_create(sizeof(struct test_str*));
+struct test_str* t1 = (struct test_str*)malloc(sizeof (struct test_str));
+t1->a = 'a';
+t1->b = 10;
+list_push_back(list1, &t1, sizeof(t1));
+struct test_str* t2 = (struct test_str*)malloc(sizeof (struct test_str));
+t2->a = 'b';
+t2->b = 20;
+list_push_front(list1, &t2, sizeof(t2));
+
+/* ... */
+struct test_str t1;
+list_ptr_t list2 = list_create(sizeof(struct test_str));
+t1.a = 'a';
+t1.b = 10;
+list_iterator_ptr_t it = list_end(list2);
+list_insert(list2, it, &t1, sizeof(t1));
 ```
 删除元素
 ```
-list.pop_back(&list);
-list.pop_front(&list);
+list_pop_back(list);
+list_pop_front(list);
 ```
 ---
 

@@ -5,8 +5,8 @@
  * @Description: None
  * @other: None
  */
-#ifndef __HLIB_COMMON_H__
-#define __HLIB_COMMON_H__
+#ifndef __HLIBC_COMMON_H__
+#define __HLIBC_COMMON_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,17 +34,6 @@ typedef enum {
 } status_t;
 
 typedef void* data_ptr_t;
-
-typedef struct node {
-    data_ptr_t data_ptr;
-    struct node *next;
-} node_t;
-
-typedef struct dnode {
-    data_ptr_t data_ptr;
-    struct dnode *prev, *next;
-} dnode_t;
-
 typedef void (*copy_data_f)(void*, const void*);
 
 #ifdef __cplusplus

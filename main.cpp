@@ -22,10 +22,10 @@ int main(int, char**) {
     //auto it = list.begin();
     auto it = list.end();
     //++it;
-    //--it;
+    --it;
     //++it;
     //++it;
-    list.insert(it, 10);
+    //list.insert(it, 10);
     cout << "it = " << *it << endl;
     for(; it != list.end(); ++it) {
         cout << *it << " ";
