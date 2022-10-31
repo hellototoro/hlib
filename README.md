@@ -97,7 +97,7 @@ stack_ptr_t stack_create(uint32_t type_size);
 void stack_destroy(stack_ptr_t stack);
 
 /* ... */
-stack_ptr_t stack = list_create();
+stack_ptr_t stack = list_create(sizeof(int));
 list_destroy(stack);
 ```
 
@@ -120,7 +120,7 @@ queue_ptr_t queue_create(uint32_t type_size);
 void queue_destroy(queue_ptr_t queue);
 
 /* ... */
-stack_ptr_t queue = list_create();
+stack_ptr_t queue = list_create(sizeof(int));
 list_destroy(queue);
 ```
 
