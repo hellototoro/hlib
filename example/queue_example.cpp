@@ -10,15 +10,15 @@
 
 void queue_example1(void)
 {
-    link_queue_t *queue = queue_create();
+    queue_ptr_t queue = queue_create();
     int a = 10;
     queue_push(queue, &a, sizeof(a), nullptr);
     a = 20;
     queue_push(queue, &a, sizeof(a), nullptr);
     a = 30;
     queue_push(queue, &a, sizeof(a), nullptr);
-    int queue_size = queue_get_size(queue);
-    for (auto i = 0; i < queue_size; ++i) {
+    int size = queue_size(queue);
+    for (auto i = 0; i < size; ++i) {
         int x = DATA_CAST(int)queue_front(queue);
         queue_pop(queue);
         std::cout << x << " ";

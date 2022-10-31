@@ -40,6 +40,6 @@ int main(int, char**) {
     cout << "---------stack data struct test---------" << endl;
     stack_example1();
 
-    //cout << "---------queue data struct test---------" << endl;
-    //queue_example1();
+    cout << "---------queue data struct test---------" << endl;
+    queue_example1();
 }

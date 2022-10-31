@@ -5,13 +5,47 @@
  * @Description: None
  * @other: None
  */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <stdlib.h>
 #include <string.h>
 #include "queue.h"
+#include "../common/hlibc_type.h"
 
-link_queue_t* queue_create(void)
+/*********************
+ *      MACROS
+ *********************/
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+typedef struct node queue_node_t;
+struct _queue_t {
+    uint32_t size;
+    queue_node_t *front, *rear;
+};
+
+/**********************
+ *   GLOBAL VARIABLES
+ **********************/
+
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
+queue_ptr_t queue_create(void)
 {
-    link_queue_t* queue = (link_queue_t *) malloc(sizeof (link_queue_t));
+    queue_ptr_t queue = (queue_ptr_t) malloc(sizeof (struct _queue_t));
     queue_node_t *node = (queue_node_t *) malloc(sizeof (queue_node_t));
     node->data_ptr = NULL;
     node->next = NULL;
@@ -20,12 +54,24 @@ link_queue_t* queue_create(void)
     return queue;
 }
 
-status_t queue_push(link_queue_t *queue, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
+void queue_destroy(queue_ptr_t queue)
+{
+    queue_clear(queue);
+    free(queue);
+}
+
+/*=====================
+ * Setter functions
+ *====================*/
+
+status_t queue_push(queue_ptr_t queue, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     queue_node_t *node = (queue_node_t*) malloc(sizeof (queue_node_t));
     node->data_ptr = (data_ptr_t) malloc(data_size);
-    if (copy_data != NULL) copy_data(node->data_ptr, data_ptr);
-    else                   memcpy(node->data_ptr, data_ptr, data_size);
+    if (copy_data != NULL)
+        copy_data(node->data_ptr, data_ptr);
+    else
+        memcpy(node->data_ptr, data_ptr, data_size);
     node->next = NULL;
     queue->rear->next = node;
     queue->rear = node;
@@ -33,7 +79,7 @@ status_t queue_push(link_queue_t *queue, data_ptr_t data_ptr, uint32_t data_size
     return OK;
 }
 
-status_t queue_pop(link_queue_t *queue)
+status_t queue_pop(queue_ptr_t queue)
 {
     if(queue->rear == queue->front) return ERROR;
     queue_node_t *p = queue->front->next;
@@ -45,35 +91,33 @@ status_t queue_pop(link_queue_t *queue)
     return OK;
 }
 
-data_ptr_t queue_front(link_queue_t *queue)
-{
-    return queue->front->next->data_ptr;
-}
-
-data_ptr_t queue_rear(link_queue_t *queue)
-{
-    return queue->rear->data_ptr;
-}
-
-bool queue_empty(link_queue_t *queue)
-{
-    return queue->front == queue->rear ? true : false;
-}
-
-void queue_clear(link_queue_t *queue)
+void queue_clear(queue_ptr_t queue)
 {
     while(!queue_empty(queue)) {
         queue_pop(queue);
     }
 }
 
-void queue_destroy(link_queue_t *queue)
+/*=======================
+ * Getter functions
+ *======================*/
+
+data_ptr_t queue_front(queue_ptr_t queue)
 {
-    queue_clear(queue);
-    free(queue);
+    return queue->front->next->data_ptr;
 }
 
-uint32_t queue_get_size(link_queue_t *queue)
+data_ptr_t queue_rear(queue_ptr_t queue)
+{
+    return queue->rear->data_ptr;
+}
+
+bool queue_empty(queue_ptr_t queue)
+{
+    return queue->front == queue->rear ? true : false;
+}
+
+uint32_t queue_size(queue_ptr_t queue)
 {
     return queue->size;
 }

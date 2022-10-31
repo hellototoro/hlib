@@ -100,6 +100,28 @@ stack_ptr_t stack = list_create();
 list_destroy(stack);
 ```
 
+# **queue**
+### queue容器遵循 FIFO（先进先出）语义。 第一个推送（即插入队列中）的元素将第一个弹出（即从队列中删除）。
+### API 
+创建和删除一个容器
+```
+/**
+ * 创建一个 queue 容器
+ * @return 返回新创建的 queue 容器
+ */
+queue_ptr_t queue_create(void);
+
+/**
+ * 删除给定的 queue 容器
+ * @param queue 一个由 `queue_create` 返回的容器
+ */
+void queue_destroy(queue_ptr_t queue);
+
+/* ... */
+stack_ptr_t queue = list_create();
+list_destroy(queue);
+```
+
 ---
 
 **1、为什么要写这个库？**<br>
