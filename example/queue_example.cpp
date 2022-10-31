@@ -10,7 +10,7 @@
 
 void queue_example1(void)
 {
-    queue_ptr_t queue = queue_create();
+    queue_ptr_t queue = queue_create(sizeof(int));
     int a = 10;
     queue_push(queue, &a, sizeof(a), nullptr);
     a = 20;

@@ -28,9 +28,10 @@ typedef struct _stack_t* stack_ptr_t;
 
 /**
  * 创建一个 stack 容器
+ * @param type_size 装入容器的数据类型的大小。例：`stack_create(sizeof(int));`
  * @return 返回新创建的 stack 容器
  */
-extern stack_ptr_t stack_create(void);
+extern stack_ptr_t stack_create(uint32_t type_size);
 
 /**
  * 删除给定的 stack 容器

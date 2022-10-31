@@ -43,13 +43,14 @@ struct _queue_t {
  *   GLOBAL FUNCTIONS
  **********************/
 
-queue_ptr_t queue_create(void)
+queue_ptr_t queue_create(uint32_t type_size)
 {
     queue_ptr_t queue = (queue_ptr_t) malloc(sizeof (struct _queue_t));
-    queue_node_t *node = (queue_node_t *) malloc(sizeof (queue_node_t));
-    node->data_ptr = NULL;
-    node->next = NULL;
-    queue->front = queue->rear = node;
+    queue_node_t *head = (queue_node_t *) malloc(sizeof (queue_node_t));
+    head->data_ptr = (data_ptr_t) malloc(type_size); /* 为 head 节点分配空间：当 queue 为空的时候，确保正常访问 */
+    memset(head->data_ptr, '\0', type_size); /* 使用 '\0' 是为了兼容字符串类型的数据 */
+    head->next = NULL;
+    queue->front = queue->rear = head;
     queue->size = 0;
     return queue;
 }
@@ -57,6 +58,8 @@ queue_ptr_t queue_create(void)
 void queue_destroy(queue_ptr_t queue)
 {
     queue_clear(queue);
+    free(queue->front->data_ptr);
+    free(queue->front);
     free(queue);
 }
 
@@ -104,7 +107,7 @@ void queue_clear(queue_ptr_t queue)
 
 data_ptr_t queue_front(queue_ptr_t queue)
 {
-    return queue->front->next->data_ptr;
+    return !queue_empty(queue) ? queue->front->next->data_ptr : queue->front->data_ptr;
 }
 
 data_ptr_t queue_rear(queue_ptr_t queue)

@@ -10,7 +10,7 @@
 
 void stack_example1(void)
 {
-    stack_ptr_t stack = stack_create();
+    stack_ptr_t stack = stack_create(sizeof(int));
     int a = 10;
     stack_push(stack, &a, sizeof(a), nullptr);
     a = 20;

@@ -85,9 +85,10 @@ list_pop_front(list);
 ```
 /**
  * 创建一个 stack 容器
+ * @param type_size 装入容器的数据类型的大小。例：`stack_create(sizeof(int));`
  * @return 返回新创建的 stack 容器
  */
-stack_ptr_t stack_create(void);
+stack_ptr_t stack_create(uint32_t type_size);
 
 /**
  * 删除给定的 stack 容器
@@ -107,9 +108,10 @@ list_destroy(stack);
 ```
 /**
  * 创建一个 queue 容器
+ * @param type_size 装入容器的数据类型的大小。例：`queue_create(sizeof(int));`
  * @return 返回新创建的 queue 容器
  */
-queue_ptr_t queue_create(void);
+queue_ptr_t queue_create(uint32_t type_size);
 
 /**
  * 删除给定的 queue 容器

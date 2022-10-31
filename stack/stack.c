@@ -25,6 +25,7 @@ typedef struct node stack_node_t;
 struct _stack_t{
     uint32_t size;
     stack_node_t* top;
+    data_ptr_t empty_data_ptr; /* 当 stack 为空时， top 节点的数据指针指向 empty_data */
 };
 
 /**********************
@@ -43,9 +44,11 @@ struct _stack_t{
  *   GLOBAL FUNCTIONS
  **********************/
 
-stack_ptr_t stack_create(void)
+stack_ptr_t stack_create(uint32_t type_size)
 {
     stack_ptr_t stack = (stack_ptr_t) malloc(sizeof (struct _stack_t));
+    stack->empty_data_ptr = (data_ptr_t) malloc(type_size); /* 当 stack 为空的时候，确保正常访问 */
+    memset(stack->empty_data_ptr, '\0', type_size); /* 使用 '\0' 是为了兼容字符串类型的数据 */
     stack->top = NULL;
     stack->size = 0;
     return stack;
@@ -54,6 +57,7 @@ stack_ptr_t stack_create(void)
 void stack_destroy(stack_ptr_t stack)
 {
     stack_clear(stack);
+    free(stack->empty_data_ptr);
     free(stack);
 }
 
@@ -88,7 +92,7 @@ status_t stack_pop(stack_ptr_t stack)
 
 void stack_clear(stack_ptr_t stack)
 {
-    while (stack->size != 0) {
+    while (!stack_empty(stack)) {
         stack_pop(stack);
     }
 }
@@ -99,7 +103,7 @@ void stack_clear(stack_ptr_t stack)
 
 data_ptr_t stack_top(stack_ptr_t stack)
 {
-    return stack->top->data_ptr;
+    return !stack_empty(stack) ? stack->top->data_ptr : stack->empty_data_ptr;
 }
 
 bool stack_empty(stack_ptr_t stack)
