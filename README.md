@@ -77,6 +77,29 @@ list_insert(list2, it, &t1, sizeof(t1));
 list_pop_back(list);
 list_pop_front(list);
 ```
+
+# **stack**
+### stack容器遵循 LIFO（后进先出）语义。 堆栈上最后推送的元素将第一个弹出。
+### API 
+创建和删除一个容器
+```
+/**
+ * 创建一个 stack 容器
+ * @return 返回新创建的 stack 容器
+ */
+stack_ptr_t stack_create(void);
+
+/**
+ * 删除给定的 stack 容器
+ * @param stack 一个由 `stack_create` 返回的容器
+ */
+void stack_destroy(stack_ptr_t stack);
+
+/* ... */
+stack_ptr_t stack = list_create();
+list_destroy(stack);
+```
+
 ---
 
 **1、为什么要写这个库？**<br>

@@ -5,31 +5,77 @@
  * @Description: None
  * @other: None
  */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <stdlib.h>
 #include <string.h>
 #include "stack.h"
+#include "../common/hlibc_type.h"
 
-link_stack_t* stack_create(void)
+/*********************
+ *      MACROS
+ *********************/
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+typedef struct node stack_node_t;
+struct _stack_t{
+    uint32_t size;
+    stack_node_t* top;
+};
+
+/**********************
+ *   GLOBAL VARIABLES
+ **********************/
+
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
+stack_ptr_t stack_create(void)
 {
-    link_stack_t* stack = (link_stack_t *) malloc(sizeof (link_stack_t));
+    stack_ptr_t stack = (stack_ptr_t) malloc(sizeof (struct _stack_t));
     stack->top = NULL;
     stack->size = 0;
     return stack;
 }
 
-status_t stack_push(link_stack_t *stack, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
+void stack_destroy(stack_ptr_t stack)
+{
+    stack_clear(stack);
+    free(stack);
+}
+
+/*=====================
+ * Setter functions
+ *====================*/
+
+status_t stack_push(stack_ptr_t stack, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     stack_node_t *node = (stack_node_t*) malloc(sizeof (stack_node_t));
     node->data_ptr = (data_ptr_t) malloc(data_size);
-    if (copy_data != NULL) copy_data(node->data_ptr, data_ptr);
-    else                   memcpy(node->data_ptr, data_ptr, data_size);
+    if (copy_data != NULL)
+        copy_data(node->data_ptr, data_ptr);
+    else
+        memcpy(node->data_ptr, data_ptr, data_size);
     node->next = stack->top;
     stack->top = node;
     ++stack->size;
     return OK;
 }
 
-status_t stack_pop(link_stack_t *stack)
+status_t stack_pop(stack_ptr_t stack)
 {
     if(stack->top == NULL) return ERROR;
     stack_node_t *p = stack->top;
@@ -40,30 +86,28 @@ status_t stack_pop(link_stack_t *stack)
     return OK;
 }
 
-data_ptr_t stack_top(link_stack_t *stack)
-{
-    return stack->top->data_ptr;
-}
-
-bool stack_empty(link_stack_t *stack)
-{
-    return stack->size == 0 ? true : false;
-}
-
-void stack_clear(link_stack_t *stack)
+void stack_clear(stack_ptr_t stack)
 {
     while (stack->size != 0) {
         stack_pop(stack);
     }
 }
 
-void stack_destroy(link_stack_t *stack)
+/*=======================
+ * Getter functions
+ *======================*/
+
+data_ptr_t stack_top(stack_ptr_t stack)
 {
-    stack_clear(stack);
-    free(stack);
+    return stack->top->data_ptr;
 }
 
-uint32_t stack_get_size(link_stack_t *stack)
+bool stack_empty(stack_ptr_t stack)
+{
+    return stack->size == 0 ? true : false;
+}
+
+uint32_t stack_size(stack_ptr_t stack)
 {
     return stack->size;
 }

@@ -10,15 +10,15 @@
 
 void stack_example1(void)
 {
-    link_stack_t* stack = stack_create();
+    stack_ptr_t stack = stack_create();
     int a = 10;
     stack_push(stack, &a, sizeof(a), nullptr);
     a = 20;
     stack_push(stack, &a, sizeof(a), nullptr);
     a = 30;
     stack_push(stack, &a, sizeof(a), nullptr);
-    int stack_size = stack_get_size(stack);
-    for (auto i = 0; i < stack_size; ++i) {
+    int size = stack_size(stack);
+    for (auto i = 0; i < size; ++i) {
         int x = DATA_CAST(int)stack_top(stack);
         stack_pop(stack);
         std::cout << x << " ";

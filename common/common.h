@@ -34,7 +34,7 @@ typedef enum {
 } status_t;
 
 typedef void* data_ptr_t;
-typedef void (*copy_data_f)(void*, const void*);
+typedef void (*copy_data_f)(data_ptr_t, const data_ptr_t);
 
 #ifdef __cplusplus
 } /*extern "C"*/
