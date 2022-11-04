@@ -17,6 +17,10 @@ extern "C" {
  *********************/
 #include "../common/common.h"
 
+/*********************
+ *      MACROS
+ *********************/
+
 /**********************
  *      TYPEDEFS
  **********************/
@@ -49,6 +53,7 @@ extern void list_push_back(list_ptr_t list, const data_ptr_t data_ptr, uint32_t 
 extern void list_push_front(list_ptr_t list, const data_ptr_t data_ptr, uint32_t data_size);
 extern void list_pop_back(list_ptr_t list);
 extern void list_pop_front(list_ptr_t list);
+extern void list_clear(list_ptr_t list);
 
 /*=======================
  * Getter functions

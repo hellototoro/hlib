@@ -40,8 +40,8 @@ struct _list_t {
  *  STATIC PROTOTYPES
  **********************/
 static list_dnode_t *create_dnode(const data_ptr_t data_ptr, uint32_t data_size);
-static status_t _insert(list_ptr_t list, list_iterator_ptr_t position, const data_ptr_t data_ptr, uint32_t data_size);
-static void _delete(list_ptr_t list, list_iterator_ptr_t position);
+static status_t _insert(list_ptr_t list, list_dnode_t* position, const data_ptr_t data_ptr, uint32_t data_size);
+static void _delete(list_ptr_t list, list_dnode_t* position);
 
 /**********************
  *   GLOBAL FUNCTIONS
@@ -91,6 +91,13 @@ void list_pop_back(list_ptr_t list)
 void list_pop_front(list_ptr_t list)
 {
     _delete(list, list->head.next);
+}
+
+void list_clear(list_ptr_t list)
+{
+    while(!list_empty(list)) {
+        _delete(list, list->head.next);
+    }
 }
 
 /*=======================
@@ -180,7 +187,7 @@ static list_dnode_t *create_dnode(const data_ptr_t data_ptr, uint32_t data_size)
     return node;
 }
 
-static status_t _insert(list_ptr_t list, list_iterator_ptr_t position, const data_ptr_t data_ptr, uint32_t data_size)
+static status_t _insert(list_ptr_t list, list_dnode_t* position, const data_ptr_t data_ptr, uint32_t data_size)
 {
     list_dnode_t *node = create_dnode(data_ptr, data_size);
     if (node == NULL) return ERROR;
@@ -194,7 +201,7 @@ static status_t _insert(list_ptr_t list, list_iterator_ptr_t position, const dat
     return OK;
 }
 
-static void _delete(list_ptr_t list, list_iterator_ptr_t position)
+static void _delete(list_ptr_t list, list_dnode_t* position)
 {
     if (list_empty(list)) return;
     if (position->next == &list->head) {
