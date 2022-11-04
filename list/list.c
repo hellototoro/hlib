@@ -23,7 +23,8 @@
  **********************/
 typedef struct dnode list_dnode_t;
 struct _list_t {
-    uint32_t size;
+    uint32_t list_size;
+    uint32_t type_size;
     list_dnode_t head;
     data_ptr_t empty_data_ptr; /* 当链表为空时， head 节点的数据指针指向 empty_data */
 };
@@ -54,12 +55,14 @@ list_ptr_t list_create(uint32_t type_size)
     list->head.data_ptr = list->empty_data_ptr;
     list->head.prev = &list->head;
     list->head.next = &list->head;
-    list->size = 0;
+    list->list_size = 0;
+    list->type_size = type_size;
     return list;
 }
 
 void list_destroy(list_ptr_t list)
 {
+    list_clear(list);
     free(list->empty_data_ptr);
     free(list);
 }
@@ -131,7 +134,7 @@ bool list_empty(list_ptr_t list)
 
 uint32_t list_size(list_ptr_t list)
 {
-    return list->size;
+    return list->list_size;
 }
 
 /*=======================
@@ -189,6 +192,7 @@ static list_dnode_t *create_dnode(const data_ptr_t data_ptr, uint32_t data_size)
 
 static status_t _insert(list_ptr_t list, list_dnode_t* position, const data_ptr_t data_ptr, uint32_t data_size)
 {
+    if(data_size != list->type_size) return ERROR;
     list_dnode_t *node = create_dnode(data_ptr, data_size);
     if (node == NULL) return ERROR;
     node->next = position->next;
@@ -197,7 +201,7 @@ static status_t _insert(list_ptr_t list, list_dnode_t* position, const data_ptr_
     position->next = node;
     if (node->next == &list->head)
         list->head.data_ptr = node->data_ptr;
-    ++list->size;
+    ++list->list_size;
     return OK;
 }
 
@@ -214,5 +218,5 @@ static void _delete(list_ptr_t list, list_dnode_t* position)
     position->next->prev = position->prev;
     free(position->data_ptr);
     free(position);
-    --list->size;
+    --list->list_size;
 }
