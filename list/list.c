@@ -210,7 +210,7 @@ static void _delete(list_ptr_t list, list_dnode_t* position)
     if (list_empty(list)) return;
     if (position->next == &list->head) {
         if (list->head.data_ptr != position->prev->data_ptr)
-            list->head.data_ptr == position->prev->data_ptr;
+            list->head.data_ptr = position->prev->data_ptr;
         else /* 只有一个节点的情况 */
             list->head.data_ptr = list->empty_data_ptr;
     }
