@@ -6,23 +6,23 @@
  * @other: None
  */
 #include <iostream>
-#include "../stack/stack.h"
+#include "../stack/hstack.h"
 
 void stack_example1(void)
 {
-    stack_ptr_t stack = stack_create(sizeof(int));
+    hstack_ptr_t stack = hstack_create(sizeof(int));
     int a = 10;
-    stack_push(stack, &a, sizeof(a), nullptr);
+    hstack_push(stack, &a, sizeof(a), nullptr);
     a = 20;
-    stack_push(stack, &a, sizeof(a), nullptr);
+    hstack_push(stack, &a, sizeof(a), nullptr);
     a = 30;
-    stack_push(stack, &a, sizeof(a), nullptr);
-    int size = stack_size(stack);
+    hstack_push(stack, &a, sizeof(a), nullptr);
+    int size = hstack_size(stack);
     for (auto i = 0; i < size; ++i) {
-        int x = DATA_CAST(int)stack_top(stack);
-        stack_pop(stack);
+        int x = DATA_CAST(int)hstack_top(stack);
+        hstack_pop(stack);
         std::cout << x << " ";
     }
-    stack_destroy(stack);
+    hstack_destroy(stack);
     std::cout << std::endl;
 }

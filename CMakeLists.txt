@@ -9,9 +9,9 @@ add_executable(
     example/list_example.cpp
     example/stack_example.cpp
     example/queue_example.cpp
-    list/list.c
-    stack/stack.c
-    queue/queue.c
+    list/hlist.c
+    stack/hstack.c
+    queue/hqueue.c
 )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

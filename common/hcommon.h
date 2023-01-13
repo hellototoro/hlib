@@ -1,12 +1,12 @@
 /*
  * @Author: totoro huangjian921@outlook.com
  * @Date: 2022-10-12 14:07:17
- * @FilePath: /hlibc/common/common.h
+ * @FilePath: /hlibc/common/hcommon.h
  * @Description: None
  * @other: None
  */
-#ifndef __HLIBC_COMMON_H__
-#define __HLIBC_COMMON_H__
+#ifndef __HLIBC_HCOMMON_H__
+#define __HLIBC_HCOMMON_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,13 +28,13 @@ extern "C" {
  *      TYPEDEFS
  **********************/
 typedef enum {
-    OK          =  1,
-    ERROR       =  0,
-    OVERFLOW    = -2
-} status_t;
+    HLIB_OK          =  1,
+    HLIB_ERROR       =  0,
+    HLIB_OVERFLOW    = -2
+} hlib_status_t;
 
-typedef void* data_ptr_t;
-typedef void (*copy_data_f)(data_ptr_t, const data_ptr_t);
+typedef void* hdata_ptr_t;
+typedef void (*copy_data_f)(hdata_ptr_t, const hdata_ptr_t);
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -12,14 +12,14 @@
 extern "C" {
 #endif
 
-struct node {
-    data_ptr_t data_ptr;
-    struct node *next;
+struct hnode {
+    hdata_ptr_t data_ptr;
+    struct hnode *next;
 };
 
-struct dnode {
-    data_ptr_t data_ptr;
-    struct dnode *prev, *next;
+struct hdnode {
+    hdata_ptr_t data_ptr;
+    struct hdnode *prev, *next;
 };
 
 #ifdef __cplusplus

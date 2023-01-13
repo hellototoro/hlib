@@ -1,7 +1,7 @@
 /*
  * @Author: totoro huangjian921@outlook.com
  * @Date: 2022-10-25 32:37:34
- * @FilePath: /hlibc/queue/queue.c
+ * @FilePath: /hlibc/queue/hqueue.c
  * @Description: None
  * @other: None
  */
@@ -11,7 +11,7 @@
  *********************/
 #include <stdlib.h>
 #include <string.h>
-#include "queue.h"
+#include "hqueue.h"
 #include "../common/hlibc_type.h"
 
 /*********************
@@ -21,8 +21,8 @@
 /**********************
  *      TYPEDEFS
  **********************/
-typedef struct node queue_node_t;
-struct _queue_t {
+typedef struct hnode queue_node_t;
+struct hqueue {
     uint32_t size;
     queue_node_t *front, *rear;
 };
@@ -43,11 +43,11 @@ struct _queue_t {
  *   GLOBAL FUNCTIONS
  **********************/
 
-queue_ptr_t queue_create(uint32_t type_size)
+hqueue_ptr_t hqueue_create(uint32_t type_size)
 {
-    queue_ptr_t queue = (queue_ptr_t) malloc(sizeof (struct _queue_t));
+    hqueue_ptr_t queue = (hqueue_ptr_t) malloc(sizeof (struct hqueue));
     queue_node_t *head = (queue_node_t *) malloc(sizeof (queue_node_t));
-    head->data_ptr = (data_ptr_t) malloc(type_size); /* 为 head 节点分配空间：当 queue 为空的时候，确保正常访问 */
+    head->data_ptr = (hdata_ptr_t) malloc(type_size); /* 为 head 节点分配空间：当 queue 为空的时候，确保正常访问 */
     memset(head->data_ptr, '\0', type_size); /* 使用 '\0' 是为了兼容字符串类型的数据 */
     head->next = NULL;
     queue->front = queue->rear = head;
@@ -55,9 +55,9 @@ queue_ptr_t queue_create(uint32_t type_size)
     return queue;
 }
 
-void queue_destroy(queue_ptr_t queue)
+void hqueue_destroy(hqueue_ptr_t queue)
 {
-    queue_clear(queue);
+    hqueue_clear(queue);
     free(queue->front->data_ptr);
     free(queue->front);
     free(queue);
@@ -67,10 +67,10 @@ void queue_destroy(queue_ptr_t queue)
  * Setter functions
  *====================*/
 
-status_t queue_push(queue_ptr_t queue, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
+hlib_status_t hqueue_push(hqueue_ptr_t queue, hdata_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data)
 {
     queue_node_t *node = (queue_node_t*) malloc(sizeof (queue_node_t));
-    node->data_ptr = (data_ptr_t) malloc(data_size);
+    node->data_ptr = (hdata_ptr_t) malloc(data_size);
     if (copy_data != NULL)
         copy_data(node->data_ptr, data_ptr);
     else
@@ -79,25 +79,25 @@ status_t queue_push(queue_ptr_t queue, data_ptr_t data_ptr, uint32_t data_size, 
     queue->rear->next = node;
     queue->rear = node;
     ++queue->size;
-    return OK;
+    return HLIB_OK;
 }
 
-status_t queue_pop(queue_ptr_t queue)
+hlib_status_t hqueue_pop(hqueue_ptr_t queue)
 {
-    if(queue->rear == queue->front) return ERROR;
+    if(queue->rear == queue->front) return HLIB_ERROR;
     queue_node_t *p = queue->front->next;
     queue->front->next = p->next;
     if (queue->rear == p) queue->rear = queue->front;
     free(p->data_ptr);
     free(p);
     --queue->size;
-    return OK;
+    return HLIB_OK;
 }
 
-void queue_clear(queue_ptr_t queue)
+void hqueue_clear(hqueue_ptr_t queue)
 {
-    while(!queue_empty(queue)) {
-        queue_pop(queue);
+    while(!hqueue_empty(queue)) {
+        hqueue_pop(queue);
     }
 }
 
@@ -105,22 +105,22 @@ void queue_clear(queue_ptr_t queue)
  * Getter functions
  *======================*/
 
-data_ptr_t queue_front(queue_ptr_t queue)
+hdata_ptr_t hqueue_front(hqueue_ptr_t queue)
 {
-    return !queue_empty(queue) ? queue->front->next->data_ptr : queue->front->data_ptr;
+    return !hqueue_empty(queue) ? queue->front->next->data_ptr : queue->front->data_ptr;
 }
 
-data_ptr_t queue_rear(queue_ptr_t queue)
+hdata_ptr_t hqueue_rear(hqueue_ptr_t queue)
 {
     return queue->rear->data_ptr;
 }
 
-bool queue_empty(queue_ptr_t queue)
+bool hqueue_empty(hqueue_ptr_t queue)
 {
     return queue->front == queue->rear ? true : false;
 }
 
-uint32_t queue_size(queue_ptr_t queue)
+uint32_t hqueue_size(hqueue_ptr_t queue)
 {
     return queue->size;
 }

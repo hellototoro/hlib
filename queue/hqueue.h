@@ -1,12 +1,12 @@
 /*
  * @Author: totoro huangjian921@outlook.com
  * @Date: 2022-10-25 32:37:34
- * @FilePath: /hlibc/queue/queue.h
+ * @FilePath: /hlibc/queue/hqueue.h
  * @Description: None
  * @other: None
  */
-#ifndef __HLIBC_QUEUE_H__
-#define __HLIBC_QUEUE_H__
+#ifndef __HLIBC_HQUEUE_H__
+#define __HLIBC_HQUEUE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,12 +15,12 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-#include "../common/common.h"
+#include "../common/hcommon.h"
 
 /**********************
  *      TYPEDEFS
  **********************/
-typedef struct _queue_t* queue_ptr_t;
+typedef struct hqueue* hqueue_ptr_t;
 
 /**********************
  * GLOBAL PROTOTYPES
@@ -29,40 +29,40 @@ typedef struct _queue_t* queue_ptr_t;
 
 /**
  * 创建一个 queue 容器
- * @param type_size 装入容器的数据类型的大小。例：`queue_create(sizeof(int));`
+ * @param type_size 装入容器的数据类型的大小。例：`hqueue_create(sizeof(int));`
  * @return 返回新创建的 queue 容器
  */
-extern queue_ptr_t queue_create(uint32_t type_size);
+extern hqueue_ptr_t hqueue_create(uint32_t type_size);
 
 /**
  * 删除给定的 queue 容器
- * @param queue 一个由 `queue_create` 返回的容器
+ * @param queue 一个由 `hqueue_create` 返回的容器
  */
-extern void queue_destroy(queue_ptr_t queue);
+extern void hqueue_destroy(hqueue_ptr_t queue);
 
 /*=====================
  * Setter functions
  *====================*/
 
-extern status_t queue_push(queue_ptr_t queue, data_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data);
-extern status_t queue_pop(queue_ptr_t queue);
+extern hlib_status_t hqueue_push(hqueue_ptr_t queue, hdata_ptr_t data_ptr, uint32_t data_size, copy_data_f copy_data);
+extern hlib_status_t hqueue_pop(hqueue_ptr_t queue);
 
 /**
  * 清理 queue 容器的所有内容
- * @param queue 一个由 `queue_create` 返回的容器
+ * @param queue 一个由 `hqueue_create` 返回的容器
  * ！！！慎用：调用此函数将会清理掉队列内容，对于普通数据而言并无影响；
  * 但是对于指针数据来说，一旦清空栈之后便无法找到其指针，除非使用者有其他记录。
  */
-extern void queue_clear(queue_ptr_t queue);
+extern void hqueue_clear(hqueue_ptr_t queue);
 
 /*=======================
  * Getter functions
  *======================*/
 
-extern data_ptr_t queue_front(queue_ptr_t queue);
-extern data_ptr_t queue_rear(queue_ptr_t queue);
-extern bool queue_empty(queue_ptr_t queue);
-extern uint32_t queue_size(queue_ptr_t queue);
+extern hdata_ptr_t hqueue_front(hqueue_ptr_t queue);
+extern hdata_ptr_t hqueue_rear(hqueue_ptr_t queue);
+extern bool hqueue_empty(hqueue_ptr_t queue);
+extern uint32_t hqueue_size(hqueue_ptr_t queue);
 
 #ifdef __cplusplus
 } /*extern "C"*/

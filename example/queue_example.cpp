@@ -6,23 +6,23 @@
  * @other: None
  */
 #include <iostream>
-#include "../queue/queue.h"
+#include "../queue/hqueue.h"
 
 void queue_example1(void)
 {
-    queue_ptr_t queue = queue_create(sizeof(int));
+    hqueue_ptr_t queue = hqueue_create(sizeof(int));
     int a = 10;
-    queue_push(queue, &a, sizeof(a), nullptr);
+    hqueue_push(queue, &a, sizeof(a), nullptr);
     a = 20;
-    queue_push(queue, &a, sizeof(a), nullptr);
+    hqueue_push(queue, &a, sizeof(a), nullptr);
     a = 30;
-    queue_push(queue, &a, sizeof(a), nullptr);
-    int size = queue_size(queue);
+    hqueue_push(queue, &a, sizeof(a), nullptr);
+    int size = hqueue_size(queue);
     for (auto i = 0; i < size; ++i) {
-        int x = DATA_CAST(int)queue_front(queue);
-        queue_pop(queue);
+        int x = DATA_CAST(int)hqueue_front(queue);
+        hqueue_pop(queue);
         std::cout << x << " ";
     }
-    queue_destroy(queue);
+    hqueue_destroy(queue);
     std::cout << std::endl;
 }

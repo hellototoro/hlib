@@ -24,26 +24,26 @@
  * @param type_size 装入容器的数据类型的大小
  * @return 返回新创建的容器
  */
-list_ptr_t list_create(uint32_t type_size);
+hlist_ptr_t hlist_create(uint32_t type_size);
 
 /**
  * 删除给定的容器
- * @param list 一个由 list_create 返回的容器
+ * @param list 一个由 hlist_create 返回的容器
  */
-extern void list_destroy(list_ptr_t list);
+extern void hlist_destroy(hlist_ptr_t list);
 
 /* 装入容器的数据类型为 int */
-list_ptr_t list = list_create(sizeof(int));
-list_destroy(list);
+hlist_ptr_t list = hlist_create(sizeof(int));
+hlist_destroy(list);
 ```
 迭代器
 ```
-list_iterator_ptr_t it = list_begin(list);
-list_iter_forward(&it);
-std::cout << "it = " << DATA_CAST(int)list_iter_data(it) << std::endl;
+hlist_iterator_ptr_t it = hlist_begin(list);
+hlist_iter_forward(&it);
+std::cout << "it = " << DATA_CAST(int)hlist_iter_data(it) << std::endl;
 /* ... */
-for (list_iterator_ptr_t it = list_begin(list); it != list_end(list); list_iter_forward(&it)) {
-    std::cout << DATA_CAST(int)list_iter_data(it) << " ";
+for (hlist_iterator_ptr_t it = hlist_begin(list); it != hlist_end(list); hlist_iter_forward(&it)) {
+    std::cout << DATA_CAST(int)hlist_iter_data(it) << " ";
 }
 ```
 插入节点，两种方式插入一个节点：1、在头部或者尾部插入；2、使用迭代器插入
@@ -54,28 +54,28 @@ struct test_str
     int b;
 };
 /* ... */
-list_ptr_t list1 = list_create(sizeof(struct test_str*));
+hlist_ptr_t list1 = hlist_create(sizeof(struct test_str*));
 struct test_str* t1 = (struct test_str*)malloc(sizeof (struct test_str));
 t1->a = 'a';
 t1->b = 10;
-list_push_back(list1, &t1, sizeof(t1));
+hlist_push_back(list1, &t1, sizeof(t1));
 struct test_str* t2 = (struct test_str*)malloc(sizeof (struct test_str));
 t2->a = 'b';
 t2->b = 20;
-list_push_front(list1, &t2, sizeof(t2));
+hlist_push_front(list1, &t2, sizeof(t2));
 
 /* ... */
 struct test_str t1;
-list_ptr_t list2 = list_create(sizeof(struct test_str));
+hlist_ptr_t list2 = hlist_create(sizeof(struct test_str));
 t1.a = 'a';
 t1.b = 10;
-list_iterator_ptr_t it = list_end(list2);
-list_insert(list2, it, &t1, sizeof(t1));
+hlist_iterator_ptr_t it = hlist_end(list2);
+hlist_insert(list2, it, &t1, sizeof(t1));
 ```
 删除元素
 ```
-list_pop_back(list);
-list_pop_front(list);
+hlist_pop_back(list);
+hlist_pop_front(list);
 ```
 
 # **stack**
@@ -85,20 +85,20 @@ list_pop_front(list);
 ```
 /**
  * 创建一个 stack 容器
- * @param type_size 装入容器的数据类型的大小。例：`stack_create(sizeof(int));`
+ * @param type_size 装入容器的数据类型的大小。例：`hstack_create(sizeof(int));`
  * @return 返回新创建的 stack 容器
  */
-stack_ptr_t stack_create(uint32_t type_size);
+hstack_ptr_t hstack_create(uint32_t type_size);
 
 /**
  * 删除给定的 stack 容器
- * @param stack 一个由 `stack_create` 返回的容器
+ * @param stack 一个由 `hstack_create` 返回的容器
  */
-void stack_destroy(stack_ptr_t stack);
+void hstack_destroy(hstack_ptr_t stack);
 
 /* ... */
-stack_ptr_t stack = list_create(sizeof(int));
-list_destroy(stack);
+hstack_ptr_t stack = hlist_create(sizeof(int));
+hlist_destroy(stack);
 ```
 
 # **queue**
@@ -108,20 +108,20 @@ list_destroy(stack);
 ```
 /**
  * 创建一个 queue 容器
- * @param type_size 装入容器的数据类型的大小。例：`queue_create(sizeof(int));`
+ * @param type_size 装入容器的数据类型的大小。例：`hqueue_create(sizeof(int));`
  * @return 返回新创建的 queue 容器
  */
-queue_ptr_t queue_create(uint32_t type_size);
+hqueue_ptr_t hqueue_create(uint32_t type_size);
 
 /**
  * 删除给定的 queue 容器
- * @param queue 一个由 `queue_create` 返回的容器
+ * @param queue 一个由 `hqueue_create` 返回的容器
  */
-void queue_destroy(queue_ptr_t queue);
+void hqueue_destroy(hqueue_ptr_t queue);
 
 /* ... */
-stack_ptr_t queue = list_create(sizeof(int));
-list_destroy(queue);
+hstack_ptr_t queue = hlist_create(sizeof(int));
+hlist_destroy(queue);
 ```
 
 ---
