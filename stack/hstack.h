@@ -50,7 +50,7 @@ extern hlib_status_t hstack_pop(hstack_ptr_t stack);
  * 清理 stack 容器的所有内容
  * @param stack 一个由 `hstack_create` 返回的容器
  * ！！！慎用：调用此函数将会清理掉栈内容，对于普通数据而言并无影响；
- * 但是对于指针数据来说，一旦清空栈之后便无法找到其指针，除非使用者有其他记录。
+ * 但是对于指针数据来说，一旦清空栈之后便无法找到其指针，故而会造成内存泄漏，除非使用者有其他记录。
  */
 extern void hstack_clear(hstack_ptr_t stack);
 

@@ -10,11 +10,12 @@
 博客地址：[https://www.cnblogs.com/hellototoro/p/16838272.html](https://www.cnblogs.com/hellototoro/p/16838272.html)
 ---
 
-# **list**
+# **hlist**
 ### 双向序列容器，用于将它们的元素保持为线性排列，并允许在序列的任何位置插入和删除。
 
 ![struct](https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029111424718-370591967.jpg)
 ![create_node](https://img2022.cnblogs.com/blog/1121656/202210/1121656-20221029111452581-1489188669.jpg)
+！！！对于堆数据来说，本库提供的clear函数不能释放开发者申请的堆空间，开发人员应该自己负责清理申请的堆空间。
 
 ### API 
 创建和删除一个容器
@@ -78,7 +79,7 @@ hlist_pop_back(list);
 hlist_pop_front(list);
 ```
 
-# **stack**
+# **hstack**
 ### stack容器遵循 LIFO（后进先出）语义。 堆栈上最后推送的元素将第一个弹出。
 ### API 
 创建和删除一个容器
@@ -101,7 +102,7 @@ hstack_ptr_t stack = hlist_create(sizeof(int));
 hlist_destroy(stack);
 ```
 
-# **queue**
+# **hqueue**
 ### queue容器遵循 FIFO（先进先出）语义。 第一个推送（即插入队列中）的元素将第一个弹出（即从队列中删除）。
 ### API 
 创建和删除一个容器

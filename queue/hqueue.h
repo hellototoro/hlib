@@ -51,7 +51,7 @@ extern hlib_status_t hqueue_pop(hqueue_ptr_t queue);
  * 清理 queue 容器的所有内容
  * @param queue 一个由 `hqueue_create` 返回的容器
  * ！！！慎用：调用此函数将会清理掉队列内容，对于普通数据而言并无影响；
- * 但是对于指针数据来说，一旦清空栈之后便无法找到其指针，除非使用者有其他记录。
+ * 但是对于指针数据来说，一旦清空栈之后便无法找到其指针，故而会造成内存泄漏，除非使用者有其他记录。
  */
 extern void hqueue_clear(hqueue_ptr_t queue);
 
