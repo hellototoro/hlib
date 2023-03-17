@@ -129,7 +129,7 @@ hlist_iterator_ptr_t hlist_end(hlist_ptr_t list)
 
 bool hlist_empty(hlist_ptr_t list)
 {
-    return list->head.next == list->head.prev ? true : false;
+    return (list->list_size == 0);
 }
 
 uint32_t list_size(hlist_ptr_t list)

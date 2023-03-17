@@ -117,7 +117,7 @@ hdata_ptr_t hqueue_rear(hqueue_ptr_t queue)
 
 bool hqueue_empty(hqueue_ptr_t queue)
 {
-    return queue->front == queue->rear ? true : false;
+    return (queue->size == 0);
 }
 
 uint32_t hqueue_size(hqueue_ptr_t queue)

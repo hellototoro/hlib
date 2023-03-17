@@ -108,7 +108,7 @@ hdata_ptr_t hstack_top(hstack_ptr_t stack)
 
 bool hstack_empty(hstack_ptr_t stack)
 {
-    return stack->size == 0 ? true : false;
+    return (stack->size == 0);
 }
 
 uint32_t hstack_size(hstack_ptr_t stack)
