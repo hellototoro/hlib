@@ -25,30 +25,15 @@ void list_example1(void)
     hlist_ptr_t list = hlist_create(sizeof(int));
     
     int a[] = {1,2,3,4,5,6};
-    for (int i = 0; i < sizeof(a)/sizeof(int); ++i) {
+    for (unsigned long i = 0; i < sizeof(a)/sizeof(int); ++i) {
         hlist_push_back(list, &a[i], sizeof(a[i]));
     }
-    //hlist_iterator_ptr_t it = hlist_begin(list);
     hlist_iterator_ptr_t it = hlist_end(list);
-    //hlist_iter_forward(&it);
     hlist_iter_backward(&it);
-    //hlist_iter_forward(&it);
-    //hlist_iter_forward(&it);
     int b = 10;
-    //hlist_insert(list, it, &b, sizeof(b));
+    hlist_insert(list, it, &b, sizeof(b));
     std::cout << "it = " << DATA_CAST(int)hlist_iter_data(it) << std::endl;
 
-    /*b = 8;
-    hlist_iter_forward_to(&it, 3);
-    hlist_insert(list, it, &b, sizeof(b));*/
-    //hlist_pop_back(list);
-    //hlist_pop_front(list);
-
-    for (; it != hlist_end(list); hlist_iter_forward(&it)) {
-        int x = DATA_CAST(int)hlist_iter_data(it);
-        std::cout << x << " ";
-    }
-    std::cout << std::endl;
     for (hlist_iterator_ptr_t it = hlist_begin(list); it != hlist_end(list); hlist_iter_forward(&it)) {
         int x = DATA_CAST(int)hlist_iter_data(it);
         std::cout << x << " ";
@@ -64,12 +49,12 @@ void list_example2(void)
     hlist_ptr_t list = hlist_create(sizeof(struct test_str));
     t1.a = 'a';
     t1.b = 10;
-    //hlist_push_back(list, &t1, sizeof(t1));
+    hlist_push_back(list, &t1, sizeof(t1));
     hlist_iterator_ptr_t it = hlist_end(list);
     std::cout <<  "a = "<< (DATA_CAST(struct test_str)hlist_iter_data(it)).a << ", b = " << (DATA_CAST(struct test_str)hlist_iter_data(it)).b << " ";
     t1.a = 'b';
     t1.b = 20;
-    //hlist_push_back(list, &t1, sizeof(t1));
+    hlist_push_back(list, &t1, sizeof(t1));
     for (hlist_iterator_ptr_t it = hlist_end(list); it != hlist_end(list); hlist_iter_backward(&it)) {
         struct test_str x = DATA_CAST(struct test_str)hlist_iter_data(it);
         std::cout <<  "a = "<< x.a << ", b = " << x.b << " ";
