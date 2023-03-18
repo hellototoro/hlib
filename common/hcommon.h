@@ -34,7 +34,8 @@ typedef enum {
 } hlib_status_t;
 
 typedef void* hdata_ptr_t;
-typedef void (*copy_data_f)(hdata_ptr_t, const hdata_ptr_t);
+typedef const void * hcdata_ptr_t;
+typedef void (*copy_data_f)(hdata_ptr_t, hcdata_ptr_t);
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -1,24 +1,22 @@
 /*
  * @Author: totoro huangjian921@outlook.com
  * @Date: 2022-10-12 14:04:29
- * @FilePath: /hlibc/main.cpp
+ * @FilePath: /hlibc/main.c
  * @Description: None
  * @other: None
  */
-#include <iostream>
+#include <stdio.h>
 #include "example/example.h"
-#include <list>
-using namespace std;
 
 int main(int, char**) {
-    cout << "---------list data struct test---------" << endl;
+    printf("---------list data struct test---------\n");
     list_example1();
     list_example2();
     list_example3();
 
-    cout << "---------stack data struct test---------" << endl;
+    printf("---------stack data struct test---------\n");
     stack_example1();
 
-    cout << "---------queue data struct test---------" << endl;
+    printf("---------queue data struct test---------\n");
     queue_example1();
 }

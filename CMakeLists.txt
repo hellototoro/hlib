@@ -8,10 +8,10 @@ SET(CMAKE_C_FLAGS "-O0 -Wall -g2 -ggdb")
 SET(CMAKE_CXX_FLAGS "-O0 -Wall -g2 -ggdb")
 
 add_executable(
-    hlibc main.cpp
-    example/list_example.cpp
-    example/stack_example.cpp
-    example/queue_example.cpp
+    hlibc main.c
+    example/list_example.c
+    example/stack_example.c
+    example/queue_example.c
     list/hlist.c
     stack/hstack.c
     queue/hqueue.c
