@@ -81,5 +81,13 @@ void list_example3(void)
         std::cout <<  "a = "<< x->a << ", b = " << x->b << " ";
     }
     std::cout << std::endl;
+
+    while (!hlist_empty(list)) {
+        struct test_str *x = DATA_CAST(struct test_str *)hlist_back(list);
+        hlist_pop_back(list);
+        delete x;
+    }
+    
+
     hlist_destroy(list);
 }
