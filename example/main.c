@@ -6,7 +6,7 @@
  * @other: None
  */
 #include <stdio.h>
-#include "example/example.h"
+#include "example.h"
 
 int main(int, char**) {
     printf("---------list data struct test---------\n");
