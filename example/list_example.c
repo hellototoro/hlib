@@ -7,7 +7,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "../src/list/hlist.h"
+#include "list/hlist.h"
 
 struct test_str
 {

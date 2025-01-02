@@ -6,7 +6,7 @@
  * @other: None
  */
 #include <stdio.h>
-#include "../src/stack/hstack.h"
+#include "stack/hstack.h"
 
 // static void copy_data(void* dest, const void* src)
 // {

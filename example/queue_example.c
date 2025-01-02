@@ -6,7 +6,7 @@
  * @other: None
  */
 #include <stdio.h>
-#include "../src/queue/hqueue.h"
+#include "queue/hqueue.h"
 
 static void copy_data(void* dest, const void* src)
 {

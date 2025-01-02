@@ -25,7 +25,6 @@ typedef struct hnode hstack_node_t;
 struct hstack{
     uint32_t size;
     hstack_node_t* top;
-    hdata_ptr_t empty_data_ptr; /* 当 stack 为空时， top 节点的数据指针指向 empty_data */
 };
 
 /**********************
@@ -47,8 +46,6 @@ struct hstack{
 hstack_ptr_t hstack_create(uint32_t type_size)
 {
     hstack_ptr_t stack = (hstack_ptr_t) malloc(sizeof (struct hstack));
-    stack->empty_data_ptr = (hdata_ptr_t) malloc(type_size); /* 当 stack 为空的时候，确保正常访问 */
-    memset(stack->empty_data_ptr, '\0', type_size); /* 使用 '\0' 是为了兼容字符串类型的数据 */
     stack->top = NULL;
     stack->size = 0;
     return stack;
@@ -57,7 +54,6 @@ hstack_ptr_t hstack_create(uint32_t type_size)
 void hstack_destroy(hstack_ptr_t stack)
 {
     hstack_clear(stack);
-    free(stack->empty_data_ptr);
     free(stack);
 }
 
@@ -103,7 +99,7 @@ void hstack_clear(hstack_ptr_t stack)
 
 hdata_ptr_t hstack_top(hstack_ptr_t stack)
 {
-    return !hstack_empty(stack) ? stack->top->data_ptr : stack->empty_data_ptr;
+    return !hstack_empty(stack) ? stack->top->data_ptr : NULL;
 }
 
 bool hstack_empty(hstack_ptr_t stack)

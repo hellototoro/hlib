@@ -26,7 +26,6 @@ struct hlist {
     uint32_t list_size;
     uint32_t type_size;
     list_dnode_t head;
-    hdata_ptr_t empty_data_ptr; /* 当链表为空时， head 节点的数据指针指向 empty_data */
 };
 
 /**********************
@@ -50,9 +49,7 @@ static void _delete(hlist_ptr_t list, list_dnode_t* position);
 hlist_ptr_t hlist_create(uint32_t type_size)
 {
     hlist_ptr_t list = (hlist_ptr_t)malloc(sizeof(struct hlist));
-    list->empty_data_ptr = (hdata_ptr_t) malloc(type_size); /* 为 head 节点分配空间：当 list 为空的时候，确保正常访问 */
-    memset(list->empty_data_ptr, '\0', type_size); /* 使用 '\0' 是为了兼容字符串类型的数据 */
-    list->head.data_ptr = list->empty_data_ptr;
+    list->head.data_ptr = NULL;
     list->head.prev = &list->head;
     list->head.next = &list->head;
     list->list_size = 0;
@@ -63,7 +60,6 @@ hlist_ptr_t hlist_create(uint32_t type_size)
 void hlist_destroy(hlist_ptr_t list)
 {
     hlist_clear(list);
-    free(list->empty_data_ptr);
     free(list);
 }
 
@@ -124,7 +120,7 @@ hlist_iterator_ptr_t hlist_begin(hlist_ptr_t list)
 
 hlist_iterator_ptr_t hlist_end(hlist_ptr_t list)
 {
-    return &list->head;
+    return list->head.prev;
 }
 
 bool hlist_empty(hlist_ptr_t list)
@@ -199,8 +195,6 @@ static hlib_status_t _insert(hlist_ptr_t list, list_dnode_t* position, const hda
     position->next->prev = node;
     node->prev = position;
     position->next = node;
-    if (node->next == &list->head)
-        list->head.data_ptr = node->data_ptr;
     ++list->list_size;
     return HLIB_OK;
 }
@@ -208,12 +202,6 @@ static hlib_status_t _insert(hlist_ptr_t list, list_dnode_t* position, const hda
 static void _delete(hlist_ptr_t list, list_dnode_t* position)
 {
     if (hlist_empty(list)) return;
-    if (position->next == &list->head) {
-        if (list->head.data_ptr != position->prev->data_ptr)
-            list->head.data_ptr = position->prev->data_ptr;
-        else /* 只有一个节点的情况 */
-            list->head.data_ptr = list->empty_data_ptr;
-    }
     position->prev->next = position->next;
     position->next->prev = position->prev;
     free(position->data_ptr);
