@@ -70,7 +70,7 @@ extern hdata_ptr_t hlist_front(hlist_ptr_t list);
 extern hlist_iterator_ptr_t hlist_begin(hlist_ptr_t list);
 extern hlist_iterator_ptr_t hlist_end(hlist_ptr_t list);
 extern bool hlist_empty(hlist_ptr_t list);
-extern uint32_t list_size(hlist_ptr_t list);
+extern uint32_t hlist_size(hlist_ptr_t list);
 
 /*=======================
  * Other functions

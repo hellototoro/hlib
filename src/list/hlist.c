@@ -128,7 +128,7 @@ bool hlist_empty(hlist_ptr_t list)
     return (list->list_size == 0);
 }
 
-uint32_t list_size(hlist_ptr_t list)
+uint32_t hlist_size(hlist_ptr_t list)
 {
     return list->list_size;
 }
